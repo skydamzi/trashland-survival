@@ -6,9 +6,9 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
     public event Action OnHpChanged, OnExpChanged, OnLevelUp;
     public int level;
-    public int maxHP;
-    private int _currentHP;
-    public int currentHP
+    public float maxHP;
+    private float _currentHP;
+    public float currentHP
     {
         get { return _currentHP; }
         set
@@ -16,7 +16,7 @@ public class PlayerManager : MonoBehaviour
             _currentHP = value;
             OnHpChanged?.Invoke();
         }
-    }   
+    }
     public float maxExp;
     private float _currentExp;
     public float currentExp
@@ -29,7 +29,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
     public float moveSpeed, attackPower, coolDown;
-    
+    public float magnetPower;
+    public Transform playerTransform;
+
     void Awake()
     {
         if (Instance == null)
@@ -65,6 +67,15 @@ public class PlayerManager : MonoBehaviour
             level++;
             Debug.Log($"레벨업 현재 레벨: {level}");
             OnLevelUp?.Invoke();
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            Debug.Log("플레이어 사망");
         }
     }
 }
