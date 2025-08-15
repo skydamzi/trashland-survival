@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class UIManager : MonoBehaviour
     public GameObject clearPanel;
     public GameObject pausePanel;
     public GameObject inGameUI;
+    public Text hpText;
+    public Text expText;
 
     void Awake()
     {
@@ -19,12 +22,57 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void Start()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnHpChanged += UpdateHpText;
+            PlayerManager.Instance.OnExpChanged += UpdateExpText;
+            PlayerManager.Instance.OnLevelUp += OnPlayerLevelUp;
+
+            UpdateHpText();
+            UpdateExpText();
+        }
+    }
+
+    void UpdateHpText()
+    {
+        if (hpText != null && PlayerManager.Instance != null)
+        {
+            hpText.text = $"HP: {PlayerManager.Instance.currentHP} / {PlayerManager.Instance.maxHP}";
+        }
+    }
+
+    void UpdateExpText()
+    {
+        if (expText != null && PlayerManager.Instance != null)
+        {
+            expText.text = $"EXP: {PlayerManager.Instance.currentExp} / {PlayerManager.Instance.maxExp}";
+        }
+    }
+
+    void OnPlayerLevelUp()
+    {
+        Debug.Log("레벨업 이벤트");
+    }
+
+    void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnHpChanged -= UpdateHpText;
+            PlayerManager.Instance.OnExpChanged -= UpdateExpText;
+            PlayerManager.Instance.OnLevelUp -= OnPlayerLevelUp;
+        }
+    }
+
     public void ShowGameOverScreen()
     {
         inGameUI.SetActive(false);
         gameOverPanel.SetActive(true);
     }
-
+    
     public void ShowClearScreen()
     {
         inGameUI.SetActive(false);
@@ -39,9 +87,7 @@ public class UIManager : MonoBehaviour
 
     public void HidePauseScreen()
     {
-
         if (pausePanel != null) pausePanel.SetActive(false);
-
         ShowInGameUI();
     }
 

@@ -602,6 +602,7 @@ MonoBehaviour:
   clearPanel: {fileID: 0}
   pausePanel: {fileID: 0}
   inGameUI: {fileID: 0}
+  hpText: {fileID: 0}
 --- !u!1 &1193575468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,11 +1068,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2e16f1c4647c74da312915ed9b65ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 0
+  level: 0
+  maxHP: 100
   currentHP: 0
   moveSpeed: 0
   attackPower: 0
   coolDown: 0
+  maxExp: 100
+  currentExp: 0
 --- !u!1 &1998045599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,6 +1214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   gameTime: 0
+  highestTime: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
