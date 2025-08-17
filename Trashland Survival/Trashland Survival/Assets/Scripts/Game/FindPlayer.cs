@@ -7,6 +7,7 @@ public class FindPlayer : MonoBehaviour
         if (PlayerManager.Instance != null)
         {
             PlayerManager.Instance.playerTransform = this.transform;
+            PlayerManager.Instance.playerRenderers = GetComponentsInChildren<Renderer>();
             Debug.Log("플레이어 오브젝트가 PlayerManager에 등록");
         }
     }

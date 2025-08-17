@@ -3,7 +3,7 @@ public class Player : MonoBehaviour
 {
     public VariableJoystick joystick;
     
-    public float moveSpeed = 3f;
+    public float moveSpeed;
     public float tiltAngle = 10f;
     public float tiltSpeed = 30f;
     Vector2 lastNonZeroMoveInput = Vector2.down;
@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
     {
         player_rb = GetComponent<Rigidbody2D>();
         player_ani = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        moveSpeed = PlayerManager.Instance.moveSpeed;
     }
 
     void Update()

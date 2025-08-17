@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -30,7 +31,14 @@ public class PlayerManager : MonoBehaviour
     }
     public float moveSpeed, attackPower, coolDown;
     public float magnetPower;
+    public float attackRange;
+    public string weaponType;
+
     public Transform playerTransform;
+    public Renderer[] playerRenderers;
+    private float blinkDuration = 1f;
+    private float blinkInterval = 0.1f;
+    private bool isInvincible = false;
 
     void Awake()
     {
@@ -56,6 +64,7 @@ public class PlayerManager : MonoBehaviour
     public void GainExp(float expAmount)
     {
         currentExp += expAmount;
+        LevelUpCheck();
     }
 
     void LevelUpCheck()
@@ -71,11 +80,41 @@ public class PlayerManager : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        if (isInvincible) return;
+
         currentHP -= damage;
+        StartCoroutine(InvincibilityEffect());
         if (currentHP <= 0)
         {
             currentHP = 0;
             Debug.Log("플레이어 사망");
         }
+    }
+    private IEnumerator InvincibilityEffect()
+    {
+        isInvincible = true;
+
+        if (playerRenderers.Length == 0)
+        {
+            yield break;
+        }
+
+        float timer = 0f;
+        while (timer < blinkDuration)
+        {
+            foreach (Renderer renderer in playerRenderers)
+            {
+                if (renderer != null) renderer.enabled = !renderer.enabled;
+            }
+            yield return new WaitForSeconds(blinkInterval);
+            timer += blinkInterval;
+        }
+
+        foreach (Renderer renderer in playerRenderers)
+        {
+            if (renderer != null) renderer.enabled = true;
+        }
+
+        isInvincible = false;
     }
 }
