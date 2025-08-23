@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum GameState
 {
@@ -52,25 +53,25 @@ public class GameManager : MonoBehaviour
 
         if (currentState == GameState.GameOver)
         {
-            UIManager.Instance.ShowGameOverScreen();
+            GameEvents.GameOver();
         }
         else if (currentState == GameState.Clear)
         {
-            UIManager.Instance.ShowClearScreen();
+            GameEvents.GameClear();
         }
         else if (currentState == GameState.Paused)
         {
-            UIManager.Instance.ShowPauseScreen();
+            GameEvents.GamePaused();
             Time.timeScale = 0f; // 게임 일시 정지
         }
         else if (currentState == GameState.Playing)
         {
-            UIManager.Instance.ShowInGameUI();
+            GameEvents.GameResumed();
             Time.timeScale = 1f; // 게임 재개
         }
         else if (currentState == GameState.Ready)
         {
-            UIManager.Instance.ShowReadyScreen();
+            GameEvents.GameStateChanged(newState);
             Time.timeScale = 1f; // 게임 준비 상태
         }
     }
@@ -80,17 +81,20 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.Playing);
         SceneManager.LoadScene("inGame");
         Debug.Log("게임 시작");
+        GameEvents.GameStarted();
     }
     public void PauseGame()
     {
         ChangeState(GameState.Paused);
         Debug.Log("게임 일시 정지");
+        GameEvents.GamePaused();
     }
 
     public void ResumeGame()
     {
         ChangeState(GameState.Playing);
         Debug.Log("게임 재개");
+        GameEvents.GameResumed();
     }
     public void ExitGame()
     {
@@ -99,5 +103,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         gameTime = 0f;
         Debug.Log("게임 종료");
+        GameEvents.GameExit();
     }
 }

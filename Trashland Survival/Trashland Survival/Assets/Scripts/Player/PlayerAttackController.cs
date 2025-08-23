@@ -10,7 +10,7 @@ public class PlayerAttackController : MonoBehaviour
     private float fireRate;
 
     public Transform neckTransform;
-    private bool isStretching = false;
+    public bool IsAttacking { get; set; }
 
     void Start()
     {
@@ -19,7 +19,6 @@ public class PlayerAttackController : MonoBehaviour
         {
             currentWeapon = GetComponentInChildren<Gun>();
         }
-        /*
         else if (selectedType == "Punch")
         {
             currentWeapon = GetComponentInChildren<Punch>();
@@ -28,7 +27,6 @@ public class PlayerAttackController : MonoBehaviour
         {
             currentWeapon = GetComponentInChildren<Boomerang>();
         }
-        */
 
         if (currentWeapon != null)
         {
@@ -42,7 +40,11 @@ public class PlayerAttackController : MonoBehaviour
     void Update()
     {
         Transform target = FindNearestMonster();
-        LookAtNearestMonster(target);
+
+        if (!IsAttacking)
+        {
+            LookAtNearestMonster(target);
+        }
         
         if (Time.time >= nextFireTime)
         {
@@ -50,7 +52,6 @@ public class PlayerAttackController : MonoBehaviour
             {
                 currentWeapon.Attack(target);
                 nextFireTime = Time.time + fireRate;
-                StartCoroutine(QuickStretch());
             }
         }
     }
@@ -88,32 +89,5 @@ public class PlayerAttackController : MonoBehaviour
         {
             neckTransform.rotation = Quaternion.Slerp(neckTransform.rotation, Quaternion.identity, 0.1f);
         }
-    }
-    
-    private IEnumerator QuickStretch()
-    {
-        if (isStretching) yield break;
-        isStretching = true;
-        Vector3 originalScale = Vector3.one;
-        Vector3 stretchScale = new Vector3(1f, 1.5f, 1f);
-        float duration = 0.05f;
-
-        float t = 0f;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            neckTransform.localScale = Vector3.Lerp(originalScale, stretchScale, t / duration);
-            yield return null;
-        }
-
-        t = 0f;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            neckTransform.localScale = Vector3.Lerp(stretchScale, originalScale, t / duration);
-            yield return null;
-        }
-        neckTransform.localScale = originalScale;
-        isStretching = false;
     }
 }

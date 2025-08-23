@@ -23,6 +23,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        GameEvents.OnGameOver += ShowGameOverScreen;
+        GameEvents.OnGameClear += ShowClearScreen;
+        GameEvents.OnGamePaused += ShowPauseScreen;
+        GameEvents.OnGameResumed += ShowInGameUI;
+        GameEvents.OnGameExit += ShowReadyScreen;
+        GameEvents.OnGameStateChanged += HandleGameStateChange;
+    }
+
+    void OnDisable()
+    {
+        GameEvents.OnGameOver -= ShowGameOverScreen;
+        GameEvents.OnGameClear -= ShowClearScreen;
+        GameEvents.OnGamePaused -= ShowPauseScreen;
+        GameEvents.OnGameResumed -= ShowInGameUI;
+        GameEvents.OnGameExit -= ShowReadyScreen;
+        GameEvents.OnGameStateChanged -= HandleGameStateChange;
+    }
+
+    private void HandleGameStateChange(GameState newState)
+    {
+        if (newState == GameState.Ready)
+        {
+            ShowReadyScreen();
+        }
+    }
+
     void Start()
     {
         if (PlayerManager.Instance != null)

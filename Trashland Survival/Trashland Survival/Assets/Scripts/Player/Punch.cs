@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Punch : WeaponBase
+{
+    public Transform neckTransform;
+    private PlayerAttackController attackController;
+    private float attackRange;
+
+    void Awake()
+    {
+        attackController = GetComponentInParent<PlayerAttackController>();
+        if (neckTransform == null)
+        {
+            neckTransform = attackController.neckTransform;
+        }
+        damage = PlayerManager.Instance.attackPower;
+        attackRange = PlayerManager.Instance.attackRange;
+    }
+
+    public override void Attack(Transform target)
+    {
+        if (attackController.IsAttacking) return;
+        StartCoroutine(PunchCoroutine(target));
+    }
+
+    private IEnumerator PunchCoroutine(Transform target)
+    {
+        attackController.IsAttacking = true;
+
+        float aimDuration = 0.1f;
+        float timer = 0f;
+        Quaternion startRotation = neckTransform.rotation;
+        
+        Vector2 direction = (target.position - neckTransform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+        while (timer < aimDuration)
+        {
+            neckTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, timer / aimDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        neckTransform.rotation = targetRotation;
+
+        float distanceToTarget = Vector2.Distance(neckTransform.position, target.position);
+        float punchLength = Mathf.Min(distanceToTarget, attackRange);
+
+        Vector3 originalScale = Vector3.one;
+        neckTransform.localScale = originalScale;
+
+        Vector3 slightStretchScale = new Vector3(originalScale.x, punchLength * 0.3f, originalScale.z);
+        Vector3 maxStretchScale = new Vector3(originalScale.x, punchLength, originalScale.z);
+
+        float slightStretchDuration = 0.2f;
+        float maxStretchDuration = 0.1f;
+        float holdDuration = 0.05f;
+        float returnDuration = 0.4f;
+
+        timer = 0f;
+        while (timer < slightStretchDuration)
+        {
+            neckTransform.localScale = Vector3.Lerp(originalScale, slightStretchScale, timer / slightStretchDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        timer = 0f;
+        while (timer < maxStretchDuration)
+        {
+            neckTransform.localScale = Vector3.Lerp(slightStretchScale, maxStretchScale, timer / maxStretchDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        neckTransform.localScale = maxStretchScale;
+
+        yield return new WaitForSeconds(holdDuration);
+
+        Vector2 boxCenter = (Vector2)neckTransform.position + (direction * (punchLength / 2));
+        Vector2 boxSize = new Vector2(neckTransform.lossyScale.x, punchLength);
+        int layerMask = LayerMask.GetMask("Monster");
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle - 90f, layerMask);
+        HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+
+        foreach (var hit in hits)
+        {
+            if (hitEnemies.Contains(hit)) continue;
+
+            if (hit.TryGetComponent<IDamageable>(out var damageable))
+            {
+                if (hit.transform.root != transform.root)
+                {
+                    damageable.TakeDamage(damage);
+                    hitEnemies.Add(hit);
+                }
+            }
+        }
+
+        timer = 0f;
+        while (timer < returnDuration)
+        {
+            neckTransform.localScale = Vector3.Lerp(maxStretchScale, originalScale, timer / returnDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        neckTransform.localScale = originalScale;
+
+        attackController.IsAttacking = false;
+    }
+}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Gun : WeaponBase
@@ -6,14 +7,22 @@ public class Gun : WeaponBase
     public Transform weaponSpawnPoint;
     public float bulletSpeed = 30f;
     public float bulletLifeTime = 1f;
+    public Transform neckTransform;
+    private bool isStretching = false;
 
     void Start()
     {
-        damage = PlayerManager.Instance.attackPower;   
+        damage = PlayerManager.Instance.attackPower;
+        PlayerAttackController playerAttackController = GetComponentInParent<PlayerAttackController>();
+        if (playerAttackController != null)
+        {
+            neckTransform = playerAttackController.neckTransform;
+        }
     }
 
     public override void Attack(Transform target)
     {
+        StartCoroutine(QuickStretch());
         Vector2 direction = (target.position - weaponSpawnPoint.position).normalized;
         GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
@@ -43,5 +52,32 @@ public class Gun : WeaponBase
             }
         }
         Destroy(bullet, bulletLifeTime);
+    }
+
+    private IEnumerator QuickStretch()
+    {
+        if (isStretching) yield break;
+        isStretching = true;
+        Vector3 originalScale = Vector3.one;
+        Vector3 stretchScale = new Vector3(1f, 1.5f, 1f);
+        float duration = 0.05f;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            neckTransform.localScale = Vector3.Lerp(originalScale, stretchScale, t / duration);
+            yield return null;
+        }
+
+        t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            neckTransform.localScale = Vector3.Lerp(stretchScale, originalScale, t / duration);
+            yield return null;
+        }
+        neckTransform.localScale = originalScale;
+        isStretching = false;
     }
 }
