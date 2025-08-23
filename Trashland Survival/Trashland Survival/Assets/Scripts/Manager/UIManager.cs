@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject inGameUI;
     public Text hpText;
     public Text expText;
+    public Text levelText;
 
     void Awake()
     {
@@ -57,10 +58,11 @@ public class UIManager : MonoBehaviour
         {
             PlayerManager.Instance.OnHpChanged += UpdateHpText;
             PlayerManager.Instance.OnExpChanged += UpdateExpText;
-            PlayerManager.Instance.OnLevelUp += OnPlayerLevelUp;
+            PlayerManager.Instance.OnLevelUp += UpdateLevelText;
 
             UpdateHpText();
             UpdateExpText();
+            UpdateLevelText();
         }
     }
 
@@ -77,6 +79,14 @@ public class UIManager : MonoBehaviour
         if (expText != null && PlayerManager.Instance != null)
         {
             expText.text = $"EXP: {PlayerManager.Instance.currentExp} / {PlayerManager.Instance.maxExp}";
+        }
+    }
+
+    void UpdateLevelText()
+    {
+        if (levelText != null && PlayerManager.Instance != null)
+        {
+            levelText.text = $"Level: {PlayerManager.Instance.level}";
         }
     }
 

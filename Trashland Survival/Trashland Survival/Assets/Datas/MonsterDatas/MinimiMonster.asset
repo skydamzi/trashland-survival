@@ -15,7 +15,7 @@ MonoBehaviour:
   monsterName: Minimi
   prefab: {fileID: 3695746801928777616, guid: a64e311af139b8840b3440e739e70680, type: 3}
   expGemPrefab: {fileID: 3704494115357454311, guid: 3b3e9cc0a485524428f0d3bebeb44ec3, type: 3}
-  health: 9
+  health: 10
   attackPower: 5
   moveSpeed: 2
   expAmount: 10
