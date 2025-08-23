@@ -8,23 +8,12 @@ public class Monster : MonoBehaviour, IDamageable
 
     void OnEnable()
     {
-        if (monsterData != null)
-        {
-            currentHealth = monsterData.health;
-        }
-        else
-        {
-            Debug.LogError(gameObject.name + "의 MonsterData가 설정되지 않았습니다.");
-        }
-
-        if (PlayerManager.Instance != null)
-        {
-            playerTransform = PlayerManager.Instance.playerTransform;
-        }
+        if (monsterData != null) currentHealth = monsterData.health;
+        if (PlayerManager.Instance != null) playerTransform = PlayerManager.Instance.playerTransform;
     }
 
     void Update()
-{
+    {
         if (playerTransform != null && monsterData != null)
         {
             Vector3 direction = (playerTransform.position - transform.position).normalized;

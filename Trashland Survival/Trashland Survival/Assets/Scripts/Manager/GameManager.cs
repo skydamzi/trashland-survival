@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            PrepareObjectPools();
         }
         else
         {
@@ -102,6 +103,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        GameEvents.NewGameStarted();
         PrepareObjectPools();
 
         ChangeState(GameState.Playing);

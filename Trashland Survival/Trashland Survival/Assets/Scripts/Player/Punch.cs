@@ -70,8 +70,8 @@ public class Punch : WeaponBase
         timer = 0f;
         while (timer < maxStretchDuration)
         {
-            timer += Time.deltaTime;
             neckTransform.localScale = Vector3.Lerp(slightStretchScale, maxStretchScale, timer / maxStretchDuration);
+            timer += Time.deltaTime;
             yield return null;
         }
         neckTransform.localScale = maxStretchScale;
@@ -83,23 +83,28 @@ public class Punch : WeaponBase
         int layerMask = LayerMask.GetMask("Monster");
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle - 90f, layerMask);
-        
+        HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+
         foreach (var hit in hits)
         {
-            if (hit.transform.root == transform.root) continue;
+            if (hitEnemies.Contains(hit)) continue;
 
             IDamageable damageable = hit.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damage);
+                if ((MonoBehaviour)damageable != (MonoBehaviour)this && ((MonoBehaviour)damageable).transform.root != transform.root)
+                {
+                    damageable.TakeDamage(damage);
+                    hitEnemies.Add(hit);
+                }
             }
         }
 
         timer = 0f;
         while (timer < returnDuration)
         {
-            timer += Time.deltaTime;
             neckTransform.localScale = Vector3.Lerp(maxStretchScale, originalScale, timer / returnDuration);
+            timer += Time.deltaTime;
             yield return null;
         }
         neckTransform.localScale = originalScale;

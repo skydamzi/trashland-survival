@@ -55,12 +55,12 @@ public class PlayerManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnGameExit += ResetStats;
+        GameEvents.OnNewGameStarted += ResetStats;
     }
 
     void OnDisable()
     {
-        GameEvents.OnGameExit -= ResetStats;
+        GameEvents.OnNewGameStarted -= ResetStats;
     }
 
     void Start()

@@ -1,16 +1,9 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class Bullet : MonoBehaviour
 {
     private float damage;
-    private readonly HashSet<IDamageable> damagedEnemies = new HashSet<IDamageable>();
-
-    void OnEnable()
-    {
-        damagedEnemies.Clear();
-    }
-
+    
     public void SetDamage(float damageValue)
     {
         damage = damageValue;
@@ -19,10 +12,9 @@ public class Bullet : MonoBehaviour
     {
         IDamageable damageable = other.GetComponentInParent<IDamageable>();
 
-        if (damageable != null && !damagedEnemies.Contains(damageable))
+        if (damageable != null)
         {
             damageable.TakeDamage(damage);
-            damagedEnemies.Add(damageable);
             PoolManager.Instance.ReturnToPool(gameObject);
         }
     }

@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616a005a1dc00a64f97dc3047b8ac7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: a6bb37a3f6d24844d976104619f4750f, type: 2}
+  monsterData: {fileID: 11400000, guid: 8ee34eabf10e8874da24574ae2327ed1, type: 2}
 --- !u!61 &9001572792194705611
 BoxCollider2D:
   m_ObjectHideFlags: 0
