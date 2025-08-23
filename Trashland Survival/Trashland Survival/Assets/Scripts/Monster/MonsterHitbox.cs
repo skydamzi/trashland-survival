@@ -11,7 +11,7 @@ public class MonsterHitbox : MonoBehaviour, IDamageDealer
 
     public float GetDamage()
     {
-        return monster.attackPower;
+        return monster.monsterData != null ? monster.monsterData.attackPower : 0;
     }
 
     public GameObject GetOwner()

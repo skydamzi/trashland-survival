@@ -24,7 +24,10 @@ public class Gun : WeaponBase
     {
         StartCoroutine(QuickStretch());
         Vector2 direction = (target.position - weaponSpawnPoint.position).normalized;
-        GameObject bullet = Instantiate(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
+        
+        GameObject bullet = PoolManager.Instance.GetFromPool(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
+        if (bullet == null) return;
+
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 
         if (bulletScript != null)
@@ -51,7 +54,16 @@ public class Gun : WeaponBase
                 }
             }
         }
-        Destroy(bullet, bulletLifeTime);
+        StartCoroutine(ReturnBulletAfterTime(bullet, bulletLifeTime));
+    }
+
+    private IEnumerator ReturnBulletAfterTime(GameObject bullet, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (bullet.activeSelf)
+        {
+            PoolManager.Instance.ReturnToPool(bullet);
+        }
     }
 
     private IEnumerator QuickStretch()

@@ -53,12 +53,28 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        GameEvents.OnNewGameStarted += ResetStats;
+    }
+
+    void OnDisable()
+    {
+        GameEvents.OnNewGameStarted -= ResetStats;
+    }
+
     void Start()
+    {
+        ResetStats();
+    }
+
+    private void ResetStats()
     {
         level = 1;
         maxExp = 100f;
         currentHP = maxHP;
         currentExp = 0f;
+        Debug.Log("플레이어 스탯 초기화 완료");
     }
 
     public void GainExp(float expAmount)

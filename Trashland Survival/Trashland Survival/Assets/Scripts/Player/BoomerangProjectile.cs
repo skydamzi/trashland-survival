@@ -18,7 +18,14 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
     private Vector3 throwDirection;
     private Vector3 orbitStartPosition;
     private float orbitAngle;
-    private HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+    private readonly HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+
+    void OnEnable()
+    {
+        hitEnemies.Clear();
+        currentState = State.Inactive;
+        orbitAngle = 0f;
+    }
 
     public void Initialize(Boomerang owner, Transform initialTarget, float dmg, float range)
     {
@@ -26,7 +33,16 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
         player = owner.transform.root;
         damage = dmg;
         throwDistance = range;
-        throwDirection = (initialTarget.position - player.position).normalized;
+        
+        if(initialTarget != null)
+        {
+            throwDirection = (initialTarget.position - player.position).normalized;
+        }
+        else
+        {
+            throwDirection = owner.transform.right;
+        }
+        
         currentState = State.Throwing;
     }
 
@@ -44,7 +60,6 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
                 {
                     currentState = State.Orbiting;
                     orbitStartPosition = transform.position - player.position;
-                    orbitAngle = 0f;
                 }
                 break;
 
@@ -63,7 +78,8 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
                 if (Vector3.Distance(transform.position, player.position) < 0.5f)
                 {
                     ownerWeapon.OnBoomerangReturned(transform.rotation);
-                    Destroy(gameObject);
+                    PoolManager.Instance.ReturnToPool(gameObject);
+                    currentState = State.Inactive;
                 }
                 break;
         }
@@ -71,15 +87,13 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (hitEnemies.Contains(other)) return;
+        if (hitEnemies.Contains(other) || other.transform.root == player) return;
 
-        if (other.TryGetComponent<IDamageable>(out var damageable))
+        IDamageable damageable = other.GetComponentInParent<IDamageable>();
+        if (damageable != null)
         {
-            if (other.transform.root != player)
-            {
-                damageable.TakeDamage(GetDamage());
-                hitEnemies.Add(other);
-            }
+            damageable.TakeDamage(GetDamage());
+            hitEnemies.Add(other);
         }
     }
 

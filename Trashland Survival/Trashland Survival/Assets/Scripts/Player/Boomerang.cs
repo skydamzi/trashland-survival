@@ -32,7 +32,14 @@ public class Boomerang : WeaponBase
             neckRenderer.enabled = false;
         }
 
-        GameObject boomerangInstance = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);
+        // Instantiate 대신 GetFromPool 사용
+        GameObject boomerangInstance = PoolManager.Instance.GetFromPool(boomerangPrefab, transform.position, Quaternion.identity);
+        if (boomerangInstance == null) 
+        {
+            isBoomerangActive = false; // 풀에서 가져오기 실패 시 공격 상태 초기화
+            return;
+        }
+
         BoomerangProjectile projectile = boomerangInstance.GetComponent<BoomerangProjectile>();
 
         if (projectile != null)

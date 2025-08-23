@@ -89,9 +89,10 @@ public class Punch : WeaponBase
         {
             if (hitEnemies.Contains(hit)) continue;
 
-            if (hit.TryGetComponent<IDamageable>(out var damageable))
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            if (damageable != null)
             {
-                if (hit.transform.root != transform.root)
+                if ((MonoBehaviour)damageable != (MonoBehaviour)this && ((MonoBehaviour)damageable).transform.root != transform.root)
                 {
                     damageable.TakeDamage(damage);
                     hitEnemies.Add(hit);

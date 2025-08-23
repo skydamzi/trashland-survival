@@ -2,6 +2,7 @@ using System;
 
 public static class GameEvents
 {
+    public static event Action OnNewGameStarted;
     public static event Action<GameState> OnGameStateChanged;
     public static event Action OnGameStarted;
     public static event Action OnGamePaused;
@@ -9,6 +10,11 @@ public static class GameEvents
     public static event Action OnGameOver;
     public static event Action OnGameClear;
     public static event Action OnGameExit; // 메인 메뉴로 돌아가기
+
+    public static void NewGameStarted()
+    {
+        OnNewGameStarted?.Invoke();
+    }
 
     public static void GameStateChanged(GameState newState)
     {

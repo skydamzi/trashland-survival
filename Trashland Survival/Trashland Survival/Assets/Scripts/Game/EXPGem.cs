@@ -6,7 +6,7 @@ public class EXPGem : MonoBehaviour
     public float attractionSpeed;
     private Transform playerTransform;
 
-    void Start()
+    void OnEnable()
     {
         if (PlayerManager.Instance != null && PlayerManager.Instance.playerTransform != null)
         {
@@ -32,7 +32,7 @@ public class EXPGem : MonoBehaviour
         if (PlayerManager.Instance != null && other.gameObject == PlayerManager.Instance.playerTransform.gameObject)
         {
             PlayerManager.Instance.GainExp(expAmount);
-            Destroy(gameObject);
+            PoolManager.Instance.ReturnToPool(gameObject);
         }
     }
     public void SetExperience(int amount)

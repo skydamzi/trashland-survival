@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Collections.Generic;
 
 public enum GameState
 {
@@ -11,6 +12,13 @@ public enum GameState
     Clear
 }
 
+[System.Serializable]
+public class PoolInfo
+{
+    public GameObject prefab;
+    public int size;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -18,12 +26,16 @@ public class GameManager : MonoBehaviour
     public float gameTime = 0f;
     public float highestTime = 0f;
 
+    [Header("Object Pools")]
+    public List<PoolInfo> poolsToPrepare;
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            PrepareObjectPools();
         }
         else
         {
@@ -34,6 +46,19 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ChangeState(GameState.Ready);
+    }
+
+    void PrepareObjectPools()
+    {
+        if (PoolManager.Instance == null) return;
+
+        foreach (var pool in poolsToPrepare)
+        {
+            if (pool.prefab != null)
+            {
+                PoolManager.Instance.PreparePool(pool.prefab, pool.size);
+            }
+        }
     }
 
     void Update()
@@ -62,22 +87,25 @@ public class GameManager : MonoBehaviour
         else if (currentState == GameState.Paused)
         {
             GameEvents.GamePaused();
-            Time.timeScale = 0f; // 게임 일시 정지
+            Time.timeScale = 0f;
         }
         else if (currentState == GameState.Playing)
         {
             GameEvents.GameResumed();
-            Time.timeScale = 1f; // 게임 재개
+            Time.timeScale = 1f;
         }
         else if (currentState == GameState.Ready)
         {
             GameEvents.GameStateChanged(newState);
-            Time.timeScale = 1f; // 게임 준비 상태
+            Time.timeScale = 1f;
         }
     }
 
     public void StartGame()
     {
+        GameEvents.NewGameStarted();
+        PrepareObjectPools();
+
         ChangeState(GameState.Playing);
         SceneManager.LoadScene("inGame");
         Debug.Log("게임 시작");
@@ -99,7 +127,7 @@ public class GameManager : MonoBehaviour
     public void ExitGame()
     {
         if (gameTime > highestTime) highestTime = gameTime;
-        ChangeState(GameState.Ready);
+        ChangeState(GameState.Ready); 
         SceneManager.LoadScene("MainMenu");
         gameTime = 0f;
         Debug.Log("게임 종료");
