@@ -26,12 +26,12 @@ public class PoolManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnNewGameStarted += ResetPools;
+        GameEvents.OnGameExit += ResetPools;
     }
 
     void OnDisable()
     {
-        GameEvents.OnNewGameStarted -= ResetPools;
+        GameEvents.OnGameExit -= ResetPools;
     }
 
     private void ResetPools()
