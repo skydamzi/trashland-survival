@@ -26,12 +26,12 @@ public class PoolManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnNewGameStarted += ResetPools;
+        GameEvents.OnGameExit += ResetPools;
     }
 
     void OnDisable()
     {
-        GameEvents.OnNewGameStarted -= ResetPools;
+        GameEvents.OnGameExit -= ResetPools;
     }
 
     private void ResetPools()
@@ -44,20 +44,18 @@ public class PoolManager : MonoBehaviour
         poolDictionary.Clear();
         poolParents.Clear();
         activeCounts.Clear();
-        Debug.Log("모든 오브젝트 풀 초기화 완료");
+        Debug.Log("오브젝트 풀 초기화");
     }
 
     public void PreparePool(GameObject prefab, int size)
     {
         if (prefab == null)
         {
-            Debug.LogError("프리팹이 null이라 풀을 준비할 수 없습니다.");
             return;
         }
 
         if (poolDictionary.ContainsKey(prefab))
         {
-            Debug.LogWarning(prefab.name + "을(를) 위한 풀은 이미 존재합니다.");
             return;
         }
 
