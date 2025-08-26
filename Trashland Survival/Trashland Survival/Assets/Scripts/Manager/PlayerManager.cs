@@ -8,9 +8,6 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
     public event Action OnHpChanged, OnExpChanged, OnLevelUp;
 
-    // Initial Stats (set in Inspector)
-    private float initialMaxHP, initialMoveSpeed, initialAttackPower, initialCoolDown, initialMagnetPower, initialAttackRange;
-
     public int level;
     public float maxHP;
     private float _currentHP;
@@ -46,12 +43,18 @@ public class PlayerManager : MonoBehaviour
     private float blinkInterval = 0.1f;
     private bool isInvincible = false;
 
+    private float baseMaxHP;
+    private float baseMoveSpeed;
+    private float baseAttackPower;
+    private float baseCoolDown;
+    private float baseMagnetPower;
+    private float baseAttackRange;
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            StoreInitialStats();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -60,49 +63,31 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    void StoreInitialStats()
-    {
-        initialMaxHP = maxHP;
-        initialMoveSpeed = moveSpeed;
-        initialAttackPower = attackPower;
-        initialCoolDown = coolDown;
-        initialMagnetPower = magnetPower;
-        initialAttackRange = attackRange;
-    }
-
     public void UpdateStats()
     {
-        maxHP = initialMaxHP;
-        moveSpeed = initialMoveSpeed;
-        attackPower = initialAttackPower;
-        coolDown = initialCoolDown;
-        magnetPower = initialMagnetPower;
-        attackRange = initialAttackRange;
-
-        float totalHealthPercent = 0;
-        float totalMoveSpeedPercent = 0;
-        float totalAttackPowerPercent = 0;
-        float totalCooldownReductionPercent = 0;
-        float totalMagnetPercent = 0;
-        float totalAttackRangePercent = 0;
+        float totalHealthBonus = 0;
+        float totalMoveSpeedBonus = 0;
+        float totalAttackPowerBonus = 0;
+        float totalCooldownReduction = 0;
+        float totalMagnetBonus = 0;
+        float totalAttackRangeBonus = 0;
 
         foreach (var upgrade in acquiredUpgrades)
         {
-            totalHealthPercent += upgrade.healthBonus;
-            totalMoveSpeedPercent += upgrade.moveSpeedBonus;
-            totalAttackPowerPercent += upgrade.attackPowerBonus;
-            totalCooldownReductionPercent += upgrade.cooldownReduction;
-            totalMagnetPercent += upgrade.magnetBonus;
-            totalAttackRangePercent += upgrade.attackRangeBonus;
+            totalHealthBonus += upgrade.healthBonus;
+            totalMoveSpeedBonus += upgrade.moveSpeedBonus;
+            totalAttackPowerBonus += upgrade.attackPowerBonus;
+            totalCooldownReduction += upgrade.cooldownReduction;
+            totalMagnetBonus += upgrade.magnetBonus;
+            totalAttackRangeBonus += upgrade.attackPowerBonus;
         }
 
-
-        maxHP += initialMaxHP * (totalHealthPercent / 100f);
-        moveSpeed += initialMoveSpeed * (totalMoveSpeedPercent / 100f);
-        attackPower += initialAttackPower * (totalAttackPowerPercent / 100f);
-        coolDown -= initialCoolDown * (totalCooldownReductionPercent / 100f);
-        magnetPower += initialMagnetPower * (totalMagnetPercent / 100f);
-        attackRange += initialAttackRange * (totalAttackRangePercent / 100f);
+        maxHP = baseMaxHP + totalHealthBonus;
+        moveSpeed = baseMoveSpeed * (1 + totalMoveSpeedBonus / 100f);
+        attackPower = baseAttackPower * (1 + totalAttackPowerBonus / 100f);
+        coolDown = baseCoolDown * (1 - totalCooldownReduction / 100f);
+        magnetPower = baseMagnetPower * (1 + totalMagnetBonus / 100f);
+        attackRange = baseAttackRange * (1 + totalAttackRangeBonus / 100f);
     }
 
     void OnEnable()
@@ -125,7 +110,13 @@ public class PlayerManager : MonoBehaviour
         level = 1;
         maxExp = 3f;
         acquiredUpgrades.Clear();
-        UpdateStats();
+        baseMaxHP = 100f;
+        baseMoveSpeed = 3f;
+        baseAttackPower = 10f;
+        baseCoolDown = 1f;
+        baseMagnetPower = 1f;
+        baseAttackRange = 3f;
+        UpdateStats(); 
         currentHP = maxHP;
         currentExp = 0f;
         weaponType = "Gun";
@@ -145,6 +136,12 @@ public class PlayerManager : MonoBehaviour
             currentExp -= maxExp;
             maxExp *= 1.5f;
             level++;
+            
+            baseMaxHP += 10f;
+            baseMoveSpeed += 1f;
+            baseAttackPower += 5f;
+
+            UpdateStats();
             Debug.Log($"레벨업 현재 레벨: {level}");
             OnLevelUp?.Invoke();
         }
