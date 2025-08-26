@@ -9,6 +9,15 @@ public enum ItemRarity
     Legendary
 }
 
+public enum EquipmentType
+{
+    RangedWeapon,
+    MeleeWeapon,
+    AreaWeapon,
+    Accessory,
+    Shoes
+}
+
 [CreateAssetMenu(fileName = "New EquipmentData", menuName = "Data/Equipment Data")]
 public class EquipmentData : ScriptableObject
 {
@@ -18,6 +27,7 @@ public class EquipmentData : ScriptableObject
     public string itemDescription;
     public Sprite itemIcon;
     public ItemRarity rarity;
+    public EquipmentType equipmentType;
 
     [Header("능력치 보너스")]
     public float healthBonus;
