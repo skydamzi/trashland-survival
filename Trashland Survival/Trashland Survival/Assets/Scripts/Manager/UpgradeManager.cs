@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
@@ -33,12 +32,14 @@ public class UpgradeManager : MonoBehaviour
         List<EquipmentData> randomUpgrades = new List<EquipmentData>();
         if (availableUpgrades.Count == 0) return randomUpgrades;
 
-        int numToPick = Mathf.Min(count, availableUpgrades.Count);
+        List<EquipmentData> tempList = new List<EquipmentData>(availableUpgrades);
+
+        int numToPick = Mathf.Min(count, tempList.Count);
         for (int i = 0; i < numToPick; i++)
         {
-            int randIndex = Random.Range(0, availableUpgrades.Count);
-            randomUpgrades.Add(availableUpgrades[randIndex]);
-            availableUpgrades.RemoveAt(randIndex);
+            int randIndex = Random.Range(0, tempList.Count);
+            randomUpgrades.Add(tempList[randIndex]);
+            tempList.RemoveAt(randIndex);
         }
 
         return randomUpgrades;
@@ -49,15 +50,18 @@ public class UpgradeManager : MonoBehaviour
         PlayerManager player = PlayerManager.Instance;
         if (player == null || upgrade == null) return;
 
-        player.maxHP += upgrade.healthBonus;
-        player.currentHP += upgrade.healthBonus;
-        player.moveSpeed += upgrade.moveSpeedBonus;
-        player.attackPower += upgrade.attackPowerBonus;
-        player.coolDown *= 1 / upgrade.cooldownReduction;
-        player.magnetPower += upgrade.magnetBonus;
-        player.attackRange += upgrade.attackRangeBonus;
-
         player.acquiredUpgrades.Add(upgrade);
+
+        if (availableUpgrades.Contains(upgrade))
+        {
+            availableUpgrades.Remove(upgrade);
+        }
+
+        float oldMaxHP = player.maxHP;
+        player.UpdateStats();
+        float newMaxHP = player.maxHP;
+
+        player.currentHP += (newMaxHP - oldMaxHP);
         
         Debug.Log($"{upgrade.itemName} 적용 완료!");
     }
