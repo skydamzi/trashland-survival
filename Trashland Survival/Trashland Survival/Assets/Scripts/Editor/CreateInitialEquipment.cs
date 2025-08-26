@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-public class CreateInitialEquipment : Editor
+public class CreateInitialEquipment
 {
     [MenuItem("Tools/Create Initial Equipment")]
     public static void CreateEquipment()

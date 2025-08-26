@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d72589284d98cc54cb753021b413cfbd, type: 3}
-  m_Name: "\uC2E4\uD5D8\uC6A9 1"
+  m_Name: "\uB9C8\uADF8\uB137\uB9C1"
   m_EditorClassIdentifier: 
-  itemName: "\uC2E4\uD5D8\uC6A9 1"
+  itemName: "\uB9C8\uADF8\uB137 \uB9C1"
   itemDescription: 
   itemIcon: {fileID: 0}
-  rarity: 0
-  equipmentType: 0
+  rarity: 1
+  equipmentType: 3
   healthBonus: 0
   expBonus: 0
   moveSpeedBonus: 0
-  attackPowerBonus: 10
+  attackPowerBonus: 0
   cooldownReduction: 0
-  magnetBonus: 0
+  magnetBonus: 10
   attackRangeBonus: 0

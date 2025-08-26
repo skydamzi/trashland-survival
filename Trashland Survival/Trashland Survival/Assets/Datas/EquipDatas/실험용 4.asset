@@ -17,7 +17,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   rarity: 0
   equipmentType: 3
-  healthBonus: 0
+  healthBonus: 50
   expBonus: 0
   moveSpeedBonus: 0
   attackPowerBonus: 0

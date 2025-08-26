@@ -19,7 +19,7 @@ MonoBehaviour:
   equipmentType: 4
   healthBonus: 0
   expBonus: 0
-  moveSpeedBonus: 0
+  moveSpeedBonus: 2
   attackPowerBonus: 0
   cooldownReduction: 0
   magnetBonus: 0

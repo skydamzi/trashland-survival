@@ -20,7 +20,7 @@ MonoBehaviour:
   healthBonus: 0
   expBonus: 0
   moveSpeedBonus: 0
-  attackPowerBonus: 0
+  attackPowerBonus: 15
   cooldownReduction: 0
   magnetBonus: 0
   attackRangeBonus: 0
