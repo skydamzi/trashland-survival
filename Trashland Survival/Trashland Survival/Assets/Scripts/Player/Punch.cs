@@ -83,19 +83,17 @@ public class Punch : WeaponBase
         int layerMask = LayerMask.GetMask("Monster");
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle - 90f, layerMask);
-        HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+        HashSet<IDamageable> hitEnemies = new HashSet<IDamageable>();
 
         foreach (var hit in hits)
         {
-            if (hitEnemies.Contains(hit)) continue;
-
             IDamageable damageable = hit.GetComponentInParent<IDamageable>();
-            if (damageable != null)
+            if (damageable != null && !hitEnemies.Contains(damageable))
             {
                 if ((MonoBehaviour)damageable != (MonoBehaviour)this && ((MonoBehaviour)damageable).transform.root != transform.root)
                 {
                     damageable.TakeDamage(damage);
-                    hitEnemies.Add(hit);
+                    hitEnemies.Add(damageable);
                 }
             }
         }

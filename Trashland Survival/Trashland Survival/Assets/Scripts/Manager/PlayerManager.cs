@@ -71,9 +71,10 @@ public class PlayerManager : MonoBehaviour
     private void ResetStats()
     {
         level = 1;
-        maxExp = 100f;
+        maxExp = 10f;
         currentHP = maxHP;
         currentExp = 0f;
+        weaponType = "Gun";
         Debug.Log("플레이어 스탯 초기화 완료");
     }
 

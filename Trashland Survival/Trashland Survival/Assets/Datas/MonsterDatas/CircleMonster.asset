@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd166394a85670c45ae877ce227fc6c3, type: 3}
-  m_Name: SquareMonster
+  m_Name: CircleMonster
   m_EditorClassIdentifier: 
-  monsterName: Square
-  prefab: {fileID: 3695746801928777616, guid: f8bd9413e864e954887d29a31b3c5162, type: 3}
+  monsterName: Circle
+  prefab: {fileID: 3695746801928777616, guid: 0a76f6b280ab2084abc777c6ff09f2bf, type: 3}
   expGemPrefab: {fileID: 3704494115357454311, guid: 3b3e9cc0a485524428f0d3bebeb44ec3, type: 3}
-  health: 20
-  attackPower: 10
-  moveSpeed: 1
-  expAmount: 2
+  health: 40
+  attackPower: 15
+  moveSpeed: 0.5
+  expAmount: 5

@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerAttackController : MonoBehaviour
 {
     private WeaponBase currentWeapon;
+    private Gun gun;
+    private Punch punch;
+    private Boomerang boomerang;
+
     private float nextFireTime = 0f;
     private float detectionRadius;
     private float fireRate;
@@ -14,27 +18,47 @@ public class PlayerAttackController : MonoBehaviour
 
     void Start()
     {
+        gun = GetComponentInChildren<Gun>(true);
+        punch = GetComponentInChildren<Punch>(true);
+        boomerang = GetComponentInChildren<Boomerang>(true);
+
+        gun.gameObject.SetActive(false);
+        punch.gameObject.SetActive(false);
+        boomerang.gameObject.SetActive(false);
+
+        UpdateWeapon();
+
+        detectionRadius = PlayerManager.Instance.attackRange;
+        fireRate = PlayerManager.Instance.coolDown;
+    }
+
+    public void UpdateWeapon()
+    {
+        if (currentWeapon != null)
+        {
+            currentWeapon.gameObject.SetActive(false);
+        }
+
         string selectedType = PlayerManager.Instance.weaponType;
         if (selectedType == "Gun")
         {
-            currentWeapon = GetComponentInChildren<Gun>();
+            currentWeapon = gun;
+            detectionRadius = PlayerManager.Instance.attackRange;
+            fireRate = PlayerManager.Instance.coolDown;
         }
         else if (selectedType == "Punch")
         {
-            currentWeapon = GetComponentInChildren<Punch>();
+            currentWeapon = punch;
         }
         else if (selectedType == "Boomerang")
         {
-            currentWeapon = GetComponentInChildren<Boomerang>();
+            currentWeapon = boomerang;
         }
 
         if (currentWeapon != null)
         {
             currentWeapon.gameObject.SetActive(true);
         }
-
-        detectionRadius = PlayerManager.Instance.attackRange;
-        fireRate = PlayerManager.Instance.coolDown;
     }
 
     void Update()
@@ -42,9 +66,9 @@ public class PlayerAttackController : MonoBehaviour
         Transform target = FindNearestMonster();
 
         if (!IsAttacking)
-        {
-            LookAtNearestMonster(target);
-        }
+            {
+                LookAtNearestMonster(target);
+            }
         
         if (Time.time >= nextFireTime)
         {

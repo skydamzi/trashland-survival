@@ -18,7 +18,7 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
     private Vector3 throwDirection;
     private Vector3 orbitStartPosition;
     private float orbitAngle;
-    private readonly HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+    private readonly HashSet<IDamageable> hitEnemies = new HashSet<IDamageable>();
 
     void OnEnable()
     {
@@ -85,15 +85,15 @@ public class BoomerangProjectile : MonoBehaviour, IDamageDealer
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+        void OnTriggerEnter2D(Collider2D other)
     {
-        if (hitEnemies.Contains(other) || other.transform.root == player) return;
+        if (other.transform.root == player) return;
 
         IDamageable damageable = other.GetComponentInParent<IDamageable>();
-        if (damageable != null)
+        if (damageable != null && !hitEnemies.Contains(damageable))
         {
             damageable.TakeDamage(GetDamage());
-            hitEnemies.Add(other);
+            hitEnemies.Add(damageable);
         }
     }
 
