@@ -39,6 +39,7 @@ public class PlayerManager : MonoBehaviour
 
     public Transform playerTransform;
     public Renderer[] playerRenderers;
+    private PlayerAttackController playerAttackController;
     private float blinkDuration = 1f;
     private float blinkInterval = 0.1f;
     private bool isInvincible = false;
@@ -61,6 +62,7 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        playerAttackController = FindFirstObjectByType<PlayerAttackController>();
     }
 
     public void UpdateStats()
@@ -93,11 +95,13 @@ public class PlayerManager : MonoBehaviour
     void OnEnable()
     {
         GameEvents.OnNewGameStarted += ResetStats;
+        GameEvents.OnWeaponSwapRequested.AddListener(HandleWeaponSwapRequest);
     }
 
     void OnDisable()
     {
         GameEvents.OnNewGameStarted -= ResetStats;
+        GameEvents.OnWeaponSwapRequested.RemoveListener(HandleWeaponSwapRequest);
     }
 
     void Start()
@@ -138,8 +142,8 @@ public class PlayerManager : MonoBehaviour
             level++;
             
             baseMaxHP += 10f;
-            baseMoveSpeed += 1f;
-            baseAttackPower += 5f;
+            baseMoveSpeed += 0.3f;
+            baseAttackPower += 1f;
 
             UpdateStats();
             Debug.Log($"레벨업 현재 레벨: {level}");
@@ -184,5 +188,34 @@ public class PlayerManager : MonoBehaviour
         }
 
         isInvincible = false;
+    }
+
+    private void HandleWeaponSwapRequest()
+    {
+        string currentWeapon = weaponType;
+        string nextWeapon = "";
+
+        switch (currentWeapon)
+        {
+            case "Gun":
+                nextWeapon = "Punch";
+                break;
+            case "Punch":
+                nextWeapon = "Boomerang";
+                break;
+            case "Boomerang":
+                nextWeapon = "Gun";
+                break;
+            default:
+                nextWeapon = "Gun";
+                break;
+        }
+
+        weaponType = nextWeapon;
+
+        if (playerAttackController != null)
+        {
+            playerAttackController.UpdateWeapon();
+        }
     }
 }

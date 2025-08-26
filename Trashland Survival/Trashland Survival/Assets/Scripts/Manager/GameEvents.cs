@@ -1,8 +1,10 @@
 using System;
+using UnityEngine.Events;
 
 public static class GameEvents
 {
     public static event Action OnNewGameStarted;
+    public static UnityEvent OnWeaponSwapRequested = new UnityEvent();
     public static event Action<GameState> OnGameStateChanged;
     public static event Action OnGameStarted;
     public static event Action OnGamePaused;
