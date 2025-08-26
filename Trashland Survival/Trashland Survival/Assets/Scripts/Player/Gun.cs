@@ -12,7 +12,6 @@ public class Gun : WeaponBase
 
     void Start()
     {
-        damage = PlayerManager.Instance.attackPower;
         PlayerAttackController playerAttackController = GetComponentInParent<PlayerAttackController>();
         if (playerAttackController != null)
         {
@@ -32,7 +31,7 @@ public class Gun : WeaponBase
 
         if (bulletScript != null)
         {
-            bulletScript.SetDamage(damage);
+            bulletScript.SetDamage(PlayerManager.Instance.attackPower);
         }
 
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();

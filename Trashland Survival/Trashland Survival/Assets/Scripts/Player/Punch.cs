@@ -6,7 +6,6 @@ public class Punch : WeaponBase
 {
     public Transform neckTransform;
     private PlayerAttackController attackController;
-    private float attackRange;
 
     void Awake()
     {
@@ -15,8 +14,6 @@ public class Punch : WeaponBase
         {
             neckTransform = attackController.neckTransform;
         }
-        damage = PlayerManager.Instance.attackPower;
-        attackRange = PlayerManager.Instance.attackRange;
     }
 
     public override void Attack(Transform target)
@@ -46,7 +43,7 @@ public class Punch : WeaponBase
         neckTransform.rotation = targetRotation;
 
         float distanceToTarget = Vector2.Distance(neckTransform.position, target.position);
-        float punchLength = Mathf.Min(distanceToTarget, attackRange);
+        float punchLength = Mathf.Min(distanceToTarget, PlayerManager.Instance.attackRange);
 
         Vector3 originalScale = Vector3.one;
         neckTransform.localScale = originalScale;
@@ -70,8 +67,8 @@ public class Punch : WeaponBase
         timer = 0f;
         while (timer < maxStretchDuration)
         {
-            neckTransform.localScale = Vector3.Lerp(slightStretchScale, maxStretchScale, timer / maxStretchDuration);
             timer += Time.deltaTime;
+            neckTransform.localScale = Vector3.Lerp(slightStretchScale, maxStretchScale, timer / maxStretchDuration);
             yield return null;
         }
         neckTransform.localScale = maxStretchScale;
@@ -92,7 +89,7 @@ public class Punch : WeaponBase
             {
                 if ((MonoBehaviour)damageable != (MonoBehaviour)this && ((MonoBehaviour)damageable).transform.root != transform.root)
                 {
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(PlayerManager.Instance.attackPower);
                     hitEnemies.Add(damageable);
                 }
             }

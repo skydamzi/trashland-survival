@@ -10,8 +10,6 @@ public class PlayerAttackController : MonoBehaviour
     private Boomerang boomerang;
 
     private float nextFireTime = 0f;
-    private float detectionRadius;
-    private float fireRate;
 
     public Transform neckTransform;
     public bool IsAttacking { get; set; }
@@ -27,9 +25,6 @@ public class PlayerAttackController : MonoBehaviour
         boomerang.gameObject.SetActive(false);
 
         UpdateWeapon();
-
-        detectionRadius = PlayerManager.Instance.attackRange;
-        fireRate = PlayerManager.Instance.coolDown;
     }
 
     public void UpdateWeapon()
@@ -43,8 +38,6 @@ public class PlayerAttackController : MonoBehaviour
         if (selectedType == "Gun")
         {
             currentWeapon = gun;
-            detectionRadius = PlayerManager.Instance.attackRange;
-            fireRate = PlayerManager.Instance.coolDown;
         }
         else if (selectedType == "Punch")
         {
@@ -75,14 +68,14 @@ public class PlayerAttackController : MonoBehaviour
             if (target != null)
             {
                 currentWeapon.Attack(target);
-                nextFireTime = Time.time + fireRate;
+                nextFireTime = Time.time + PlayerManager.Instance.coolDown;
             }
         }
     }
 
     private Transform FindNearestMonster()
     {
-        Collider2D[] monsters = Physics2D.OverlapCircleAll(transform.position, detectionRadius, LayerMask.GetMask("Monster"));
+        Collider2D[] monsters = Physics2D.OverlapCircleAll(transform.position, PlayerManager.Instance.attackRange, LayerMask.GetMask("Monster"));
         if (monsters.Length == 0) return null;
 
         Transform nearestMonster = null;

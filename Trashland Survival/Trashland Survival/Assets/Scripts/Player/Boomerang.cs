@@ -7,12 +7,9 @@ public class Boomerang : WeaponBase
     private bool isBoomerangActive = false;
     private Renderer neckRenderer;
     private Transform neckTransform;
-    private float attackRange;
 
     void Start()
     {
-        damage = PlayerManager.Instance.attackPower;
-        attackRange = PlayerManager.Instance.attackRange;
         PlayerAttackController playerAttackController = GetComponentInParent<PlayerAttackController>();
         if (playerAttackController != null && playerAttackController.neckTransform != null)
         {
@@ -44,7 +41,7 @@ public class Boomerang : WeaponBase
 
         if (projectile != null)
         {
-            projectile.Initialize(this, target, damage, attackRange);
+            projectile.Initialize(this, target, PlayerManager.Instance.attackPower, PlayerManager.Instance.attackRange);
         }
     }
 
@@ -77,3 +74,4 @@ public class Boomerang : WeaponBase
         }
     }
 }
+

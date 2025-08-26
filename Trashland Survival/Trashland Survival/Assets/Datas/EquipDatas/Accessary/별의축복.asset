@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72589284d98cc54cb753021b413cfbd, type: 3}
   m_Name: "\uBCC4\uC758\uCD95\uBCF5"
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: "\uBCC4\uC758\uCD95\uBCF5"
   itemDescription: 
   itemIcon: {fileID: 0}
   rarity: 3
