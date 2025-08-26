@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class PlayerManager : MonoBehaviour
     public float magnetPower;
     public float attackRange;
     public string weaponType;
+    public List<EquipmentData> acquiredUpgrades = new List<EquipmentData>();
 
     public Transform playerTransform;
     public Renderer[] playerRenderers;
@@ -71,10 +73,11 @@ public class PlayerManager : MonoBehaviour
     private void ResetStats()
     {
         level = 1;
-        maxExp = 10f;
+        maxExp = 3f;
         currentHP = maxHP;
         currentExp = 0f;
         weaponType = "Gun";
+        acquiredUpgrades.Clear();
         Debug.Log("플레이어 스탯 초기화 완료");
     }
 

@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public GameObject clearPanel;
     public GameObject pausePanel;
     public GameObject inGameUI;
+    public UpgradeUI upgradeUI; // 업그레이드 UI 참조
     public Text hpText;
     public Text expText;
     public Text dayStatusText;
@@ -84,7 +85,19 @@ public class UIManager : MonoBehaviour
 
     void OnPlayerLevelUp()
     {
-        Debug.Log("레벨업 이벤트");
+        Debug.Log("레벨업으로 증강 선택 UI 표시");
+        if (upgradeUI != null)
+        {
+            var upgrades = UpgradeManager.Instance.GetRandomUpgrades(3);
+            if (upgrades.Count > 0)
+            {
+                upgradeUI.ShowUpgrades(upgrades);
+            }
+            else
+            {
+                Debug.LogWarning("표시할 업그레이드 X");
+            }
+        }
     }
 
     void OnDestroy()

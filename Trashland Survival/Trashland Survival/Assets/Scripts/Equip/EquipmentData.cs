@@ -21,7 +21,7 @@ public enum EquipmentType
 [CreateAssetMenu(fileName = "New EquipmentData", menuName = "Data/Equipment Data")]
 public class EquipmentData : ScriptableObject
 {
-    [Header("기본 정보")]
+    [Header("Basic Info")]
     public string itemName;
     [TextArea]
     public string itemDescription;
@@ -29,7 +29,7 @@ public class EquipmentData : ScriptableObject
     public ItemRarity rarity;
     public EquipmentType equipmentType;
 
-    [Header("능력치 보너스")]
+    [Header("Bonus Stats")]
     public float healthBonus;
     public float expBonus;
     public float moveSpeedBonus;
