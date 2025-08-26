@@ -4,49 +4,38 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [Header("스테이지 웨이브 설정")]
-    public List<WaveData> waves;
+    public static MonsterSpawner Instance;
 
     [Header("몬스터 스폰 설정")]
     public int maxActiveMonsters = 100;
 
-    private int currentWaveIndex = 0;
     private Camera mainCamera;
 
-    void Start()
+    void Awake()
     {
-        mainCamera = Camera.main;
-        if (waves.Count > 0)
+        if (Instance == null)
         {
-            StartCoroutine(SpawnWaves());
+            Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+        mainCamera = Camera.main;
     }
 
-    private IEnumerator SpawnWaves()
+    public void StartSpawningWave(WaveData waveData)
     {
-        float elapsedTime = 0f;
-
-        while (currentWaveIndex < waves.Count)
+        foreach (var group in waveData.monstersInWave)
         {
-            WaveData currentWave = waves[currentWaveIndex];
-            
-            foreach (var group in currentWave.monstersInWave)
-            {
-                StartCoroutine(SpawnMonsterGroup(group, currentWave.waveDuration));
-            }
-
-            yield return new WaitForSeconds(currentWave.waveDuration);
-            elapsedTime += currentWave.waveDuration;
-
-            currentWaveIndex++;
+            StartCoroutine(SpawnMonsterGroup(group, waveData.waveDuration));
         }
-
-        Debug.Log("모든 웨이브 종료");
     }
 
     private IEnumerator SpawnMonsterGroup(MonsterGroup group, float waveDuration)
     {
-        float spawnInterval = waveDuration / group.count;
+        float spawnTotalTime = waveDuration * 0.75f;
+        float spawnInterval = spawnTotalTime / group.count;
 
         for (int i = 0; i < group.count; i++)
         {

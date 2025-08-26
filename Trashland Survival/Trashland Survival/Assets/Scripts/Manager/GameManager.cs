@@ -131,4 +131,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("게임 종료");
         GameEvents.GameExit();
     }
+
+    public void ResetGameTime()
+    {
+        gameTime = 0f;
+    }
 }

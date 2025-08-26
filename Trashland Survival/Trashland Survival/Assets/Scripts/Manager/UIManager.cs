@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject inGameUI;
     public Text hpText;
     public Text expText;
+    public Text dayStatusText;
 
     void Awake()
     {
@@ -100,7 +102,7 @@ public class UIManager : MonoBehaviour
         inGameUI.SetActive(false);
         gameOverPanel.SetActive(true);
     }
-    
+
     public void ShowClearScreen()
     {
         inGameUI.SetActive(false);
@@ -130,5 +132,13 @@ public class UIManager : MonoBehaviour
     public void ShowReadyScreen()
     {
         inGameUI.SetActive(false);
+    }
+
+    public void UpdateDayStatus(int dayNumber)
+    {
+        if (dayStatusText != null)
+        {
+            dayStatusText.text = $"DAY {dayNumber} 진행중";
+        }
     }
 }
