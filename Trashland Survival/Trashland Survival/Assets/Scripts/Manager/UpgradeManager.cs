@@ -68,7 +68,6 @@ public class UpgradeManager : MonoBehaviour
         else if (data is UpgradeData upgradeData)
         {
             PlayerManager.Instance.acquiredStatUpgrades.Add(upgradeData);
-            availableStatUpgrades.Remove(upgradeData);
         }
         PlayerManager.Instance.UpdateStats();
     }
