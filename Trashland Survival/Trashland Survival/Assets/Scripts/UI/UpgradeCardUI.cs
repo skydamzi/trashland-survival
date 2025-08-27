@@ -11,15 +11,15 @@ public class UpgradeCardUI : MonoBehaviour
 
     private EquipmentData currentEquipmentUpgrade;
     private UpgradeData currentStatUpgrade;
-    private UpgradeUI upgradeUI;
+    public UpgradeUI parentUI;
 
     public void Init(UpgradeUI parentUI)
     {
-        upgradeUI = parentUI;
+        this.parentUI = parentUI;
         button.onClick.AddListener(OnCardClicked);
         if (outlineEffect != null)
         {
-            outlineEffect.enabled = false;
+            outlineEffect.enabled = true;
         }
     }
 
@@ -30,7 +30,6 @@ public class UpgradeCardUI : MonoBehaviour
         nameText.text = data.itemName;
         descriptionText.text = data.itemDescription;
         iconImage.sprite = data.itemIcon;
-
         UpdateOutlineEffect(data.rarity);
     }
 
@@ -45,7 +44,7 @@ public class UpgradeCardUI : MonoBehaviour
         if (outlineEffect != null)
         {
             outlineEffect.enabled = true;
-            outlineEffect.effectColor = Color.white;
+            outlineEffect.effectColor = Color.green;
         }
     }
 
@@ -79,12 +78,12 @@ public class UpgradeCardUI : MonoBehaviour
         if (currentEquipmentUpgrade != null)
         {
             UpgradeManager.Instance.ApplyUpgrade(currentEquipmentUpgrade);
-            upgradeUI.Hide();
+            parentUI.OnCardSelected(this);
         }
         else if (currentStatUpgrade != null)
         {
             UpgradeManager.Instance.ApplyUpgrade(currentStatUpgrade);
-            upgradeUI.Hide();
+            parentUI.OnCardSelected(this);
         }
     }
 }
