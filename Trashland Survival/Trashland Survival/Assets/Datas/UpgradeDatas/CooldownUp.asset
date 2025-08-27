@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad50c5cbbd37574aa2e12ed422af3cf, type: 3}
   m_Name: CooldownUp
   m_EditorClassIdentifier: 
-  upgradeName: 
-  upgradeDescription: 
+  upgradeName: "\uACF5\uACA9\uC18D\uB3C4 \uAC15\uD654"
+  upgradeDescription: "\uACF5\uACA9\uC18D\uB3C4\uAC00 10% \uC99D\uAC00\uD569\uB2C8\uB2E4."
   upgradeIcon: {fileID: 0}
   upgradeType: 3
-  value: 0
+  value: 0.1

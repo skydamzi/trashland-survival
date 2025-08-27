@@ -1768,7 +1768,7 @@ MonoBehaviour:
   level: 0
   maxHP: 100
   maxExp: 10
-  moveSpeed: 3
+  moveSpeed: 2
   attackPower: 10
   coolDown: 1
   magnetPower: 1
