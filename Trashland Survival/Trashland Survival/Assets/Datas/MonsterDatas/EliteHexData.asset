@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458ee77f60e6f4d418701836484edfcb, type: 3}
+  m_Name: EliteHexData
+  m_EditorClassIdentifier: 
+  monsterName: SonGay
+  prefab: {fileID: 3695746801928777616, guid: 42985ec402c08884490e14cf1a610189, type: 3}
+  expGemPrefab: {fileID: 3704494115357454311, guid: 3b3e9cc0a485524428f0d3bebeb44ec3, type: 3}
+  health: 150
+  attackPower: 25
+  moveSpeed: 1
+  expAmount: 20
+  attackPatterns: 00000000

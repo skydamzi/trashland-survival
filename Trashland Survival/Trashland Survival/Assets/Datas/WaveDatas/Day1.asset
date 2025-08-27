@@ -19,3 +19,5 @@ MonoBehaviour:
     count: 10
   - monsterData: {fileID: 11400000, guid: a6bb37a3f6d24844d976104619f4750f, type: 2}
     count: 20
+  - monsterData: {fileID: 11400000, guid: e965a984227ae5f4fa3651fb52ba5680, type: 2}
+    count: 7

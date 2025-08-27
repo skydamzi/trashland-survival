@@ -202,7 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616a005a1dc00a64f97dc3047b8ac7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 35c39ac4060307047b60cdff35a24a67, type: 2}
+  monsterData: {fileID: 11400000, guid: e965a984227ae5f4fa3651fb52ba5680, type: 2}
+  chargeRange: 4
+  indicatorWidth: 0.6
+  chargeIndicatorPrefab: {fileID: 1626620303736038879, guid: b6e51a80ad1a1ab488afd8d093e7cc95, type: 3}
 --- !u!50 &8285132617628025468
 Rigidbody2D:
   serializedVersion: 5
