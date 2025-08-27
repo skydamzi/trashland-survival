@@ -14,6 +14,18 @@ public class PlayerAttackController : MonoBehaviour
     public Transform neckTransform;
     public bool IsAttacking { get; set; }
 
+    public float neckRotationSpeed = 10f;
+
+    void OnEnable()
+    {
+        GameEvents.OnWeaponSwapRequested.AddListener(UpdateWeapon);
+    }
+
+    void OnDisable()
+    {
+        GameEvents.OnWeaponSwapRequested.RemoveListener(UpdateWeapon);
+    }
+
     void Start()
     {
         gun = GetComponentInChildren<Gun>(true);
@@ -100,11 +112,12 @@ public class PlayerAttackController : MonoBehaviour
             Vector2 direction = (target.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            neckTransform.rotation = Quaternion.Slerp(neckTransform.rotation, targetRotation, 0.1f);
+            
+            neckTransform.rotation = Quaternion.Slerp(neckTransform.rotation, targetRotation, neckRotationSpeed * Time.deltaTime);
         }
         else
         {
-            neckTransform.rotation = Quaternion.Slerp(neckTransform.rotation, Quaternion.identity, 0.1f);
+            neckTransform.rotation = Quaternion.Slerp(neckTransform.rotation, Quaternion.identity, neckRotationSpeed * Time.deltaTime);
         }
     }
 }
