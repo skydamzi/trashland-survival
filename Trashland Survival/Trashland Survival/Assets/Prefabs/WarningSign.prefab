@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2095351829600378492}
   - component: {fileID: 3138119586106207888}
+  - component: {fileID: -8844778469754941597}
   m_Layer: 0
   m_Name: WarningSign
   m_TagString: Untagged
@@ -87,3 +88,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-8844778469754941597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626620303736038879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8042051034440a4984ba11fd1673c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourcePrefab: {fileID: 1626620303736038879}

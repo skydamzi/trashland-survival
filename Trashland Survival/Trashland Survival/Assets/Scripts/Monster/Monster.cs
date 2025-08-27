@@ -15,9 +15,7 @@ public class Monster : MonoBehaviour, IDamageable
     public float chargeRange = 10f;
     public float indicatorWidth = 0.2f;
     public float chargeSpeedMultiplier = 8f;
-
-    [Header("엘리트 몬스터 전용")]
-    public GameObject chargeIndicatorPrefab;
+    public GameObject warningSignPrefab;
 
     void OnEnable()
     {
@@ -70,27 +68,34 @@ public class Monster : MonoBehaviour, IDamageable
         Vector3 startPosition = transform.position;
         Vector3 direction = (targetPosition - startPosition).normalized;
 
-        if (chargeIndicatorPrefab != null)
+        // 돌진 거리를 항상 고정된 chargeRange 값으로 사용합니다.
+        float actualChargeDistance = chargeRange;
+
+        GameObject warningSign = null;
+        if (warningSignPrefab != null)
         {
-            float distance = Vector3.Distance(startPosition, targetPosition);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Quaternion rotation = Quaternion.Euler(0, 0, angle - 90); 
 
-            GameObject indicator = Instantiate(chargeIndicatorPrefab, startPosition, rotation);
-
-            indicator.transform.localScale = new Vector3(distance, indicatorWidth, 1f);
-            indicator.transform.position = startPosition + direction * distance / 2;
+            warningSign = PoolManager.Instance.GetFromPool(warningSignPrefab, startPosition, rotation);
             
-            yield return new WaitForSeconds(1f);
-            Destroy(indicator);
+            if (warningSign != null)
+            {
+                warningSign.transform.localScale = new Vector3(indicatorWidth, actualChargeDistance, 1f);
+                warningSign.transform.position += warningSign.transform.up * (actualChargeDistance / 2);
+            }
         }
-        else
+
+        yield return new WaitForSeconds(1f);
+
+        if (warningSign != null)
         {
-            yield return new WaitForSeconds(1f);
+            PoolManager.Instance.ReturnToPool(warningSign);
         }
 
         float chargeSpeed = monsterData.moveSpeed * chargeSpeedMultiplier;
-        float chargeDuration = 0.5f;
+        // 돌진 시간도 고정된 거리를 기준으로 계산합니다.
+        float chargeDuration = actualChargeDistance / chargeSpeed;
         float timer = 0f;
 
         while (timer < chargeDuration)
