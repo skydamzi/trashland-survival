@@ -7,29 +7,83 @@ public class UpgradeCardUI : MonoBehaviour
     public Text descriptionText;
     public Image iconImage;
     public Button button;
+    public Outline outlineEffect;
 
-    private EquipmentData currentUpgrade;
+    private EquipmentData currentEquipmentUpgrade;
+    private UpgradeData currentStatUpgrade;
     private UpgradeUI upgradeUI;
 
     public void Init(UpgradeUI parentUI)
     {
         upgradeUI = parentUI;
         button.onClick.AddListener(OnCardClicked);
+        if (outlineEffect != null)
+        {
+            outlineEffect.enabled = false;
+        }
     }
 
     public void SetData(EquipmentData data)
     {
-        currentUpgrade = data;
+        currentEquipmentUpgrade = data;
+        currentStatUpgrade = null;
         nameText.text = data.itemName;
         descriptionText.text = data.itemDescription;
         iconImage.sprite = data.itemIcon;
+
+        UpdateOutlineEffect(data.rarity);
+    }
+
+    public void SetData(UpgradeData data)
+    {
+        currentStatUpgrade = data;
+        currentEquipmentUpgrade = null;
+        nameText.text = data.upgradeName;
+        descriptionText.text = data.upgradeDescription;
+        iconImage.sprite = data.upgradeIcon;
+
+        if (outlineEffect != null)
+        {
+            outlineEffect.enabled = true;
+            outlineEffect.effectColor = Color.white;
+        }
+    }
+
+    private void UpdateOutlineEffect(ItemRarity rarity)
+    {
+        if (outlineEffect == null) return;
+
+        outlineEffect.enabled = true;
+        switch (rarity)
+        {
+            case ItemRarity.Normal:
+                outlineEffect.effectColor = Color.gray;
+                break;
+            case ItemRarity.Rare:
+                outlineEffect.effectColor = Color.blue;
+                break;
+            case ItemRarity.Unique:
+                outlineEffect.effectColor = new Color(0.7f, 0f, 1f);
+                break;
+            case ItemRarity.Legendary:
+                outlineEffect.effectColor = Color.yellow;
+                break;
+            default:
+                outlineEffect.enabled = false;
+                break;
+        }
     }
 
     private void OnCardClicked()
     {
-        if (currentUpgrade != null)
+        if (currentEquipmentUpgrade != null)
         {
-            UpgradeManager.Instance.ApplyUpgrade(currentUpgrade);
+            UpgradeManager.Instance.ApplyUpgrade(currentEquipmentUpgrade);
+            upgradeUI.Hide();
+        }
+        else if (currentStatUpgrade != null)
+        {
+            UpgradeManager.Instance.ApplyUpgrade(currentStatUpgrade);
             upgradeUI.Hide();
         }
     }

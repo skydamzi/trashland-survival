@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpeedUp
   m_EditorClassIdentifier: 
   upgradeName: "\uC774\uB3D9\uC18D\uB3C4 \uAC15\uD654"
-  upgradeDescription: "\uC774\uB3D9\uC18D\uB3C4\uAC00 5% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  upgradeDescription: "\uC774\uB3D9\uC18D\uB3C4\uAC00 5%\n\uC99D\uAC00\uD569\uB2C8\uB2E4."
   upgradeIcon: {fileID: 0}
   upgradeType: 2
-  value: 0.1
+  value: 10

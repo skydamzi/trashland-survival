@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MagnetUp
   m_EditorClassIdentifier: 
   upgradeName: "\uC790\uB825 \uAC15\uD654"
-  upgradeDescription: "\uC790\uB825\uC774 10% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  upgradeDescription: "\uC790\uB825\uC774 10%\n\uC99D\uAC00\uD569\uB2C8\uB2E4."
   upgradeIcon: {fileID: 0}
   upgradeType: 4
-  value: 0.1
+  value: 10

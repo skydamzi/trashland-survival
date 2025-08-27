@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AttackUp
   m_EditorClassIdentifier: 
   upgradeName: "\uACF5\uACA9 \uAC15\uD654"
-  upgradeDescription: "\uACF5\uACA9\uB825\uC774 10% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  upgradeDescription: "\uACF5\uACA9\uB825\uC774 10%\n\uC99D\uAC00\uD569\uB2C8\uB2E4."
   upgradeIcon: {fileID: 0}
   upgradeType: 1
-  value: 1
+  value: 10

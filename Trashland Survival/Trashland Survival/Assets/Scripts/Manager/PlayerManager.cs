@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
     public float attackRange;
     public string weaponType;
     public List<EquipmentData> acquiredUpgrades = new List<EquipmentData>();
+    public List<UpgradeData> acquiredStatUpgrades = new List<UpgradeData>();
 
     public Transform playerTransform;
     public Renderer[] playerRenderers;
@@ -67,6 +68,38 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdateStats()
     {
+        float currentBaseMaxHP = baseMaxHP;
+        float currentBaseMoveSpeed = baseMoveSpeed;
+        float currentBaseAttackPower = baseAttackPower;
+        float currentBaseCoolDown = baseCoolDown;
+        float currentBaseMagnetPower = baseMagnetPower;
+        float currentBaseAttackRange = baseAttackRange;
+
+        foreach (var statUpgrade in acquiredStatUpgrades)
+        {
+            switch (statUpgrade.upgradeType)
+            {
+                case UpgradeType.Health:
+                    currentBaseMaxHP += baseMaxHP * (statUpgrade.value / 100f);
+                    break;
+                case UpgradeType.AttackPower:
+                    currentBaseAttackPower += baseAttackPower * (statUpgrade.value / 100f);
+                    break;
+                case UpgradeType.MoveSpeed:
+                    currentBaseMoveSpeed += baseMoveSpeed * (statUpgrade.value / 100f);
+                    break;
+                case UpgradeType.CooldownReduction:
+                    currentBaseCoolDown -= baseCoolDown * (statUpgrade.value / 100f);
+                    break;
+                case UpgradeType.Magnet:
+                    currentBaseMagnetPower += baseMagnetPower * (statUpgrade.value / 100f);
+                    break;
+                case UpgradeType.AttackRange:
+                    currentBaseAttackRange += baseAttackRange * (statUpgrade.value / 100f);
+                    break;
+            }
+        }
+
         float totalHealthBonus = 0;
         float totalMoveSpeedBonus = 0;
         float totalAttackPowerBonus = 0;
@@ -81,15 +114,15 @@ public class PlayerManager : MonoBehaviour
             totalAttackPowerBonus += upgrade.attackPowerBonus;
             totalCooldownReduction += upgrade.cooldownReduction;
             totalMagnetBonus += upgrade.magnetBonus;
-            totalAttackRangeBonus += upgrade.attackPowerBonus;
+            totalAttackRangeBonus += upgrade.attackRangeBonus;
         }
 
-        maxHP = baseMaxHP + totalHealthBonus;
-        moveSpeed = baseMoveSpeed * (1 + totalMoveSpeedBonus / 100f);
-        attackPower = baseAttackPower * (1 + totalAttackPowerBonus / 100f);
-        coolDown = baseCoolDown * (1 - totalCooldownReduction / 100f);
-        magnetPower = baseMagnetPower * (1 + totalMagnetBonus / 100f);
-        attackRange = baseAttackRange * (1 + totalAttackRangeBonus / 100f);
+        maxHP = currentBaseMaxHP + totalHealthBonus;
+        moveSpeed = currentBaseMoveSpeed * (1 + totalMoveSpeedBonus / 100f);
+        attackPower = currentBaseAttackPower * (1 + totalAttackPowerBonus / 100f);
+        coolDown = currentBaseCoolDown * (1 - totalCooldownReduction / 100f);
+        magnetPower = currentBaseMagnetPower * (1 + totalMagnetBonus / 100f);
+        attackRange = currentBaseAttackRange * (1 + totalAttackRangeBonus / 100f);
     }
 
     void OnEnable()
@@ -114,8 +147,9 @@ public class PlayerManager : MonoBehaviour
         level = 1;
         maxExp = 3f;
         acquiredUpgrades.Clear();
+        acquiredStatUpgrades.Clear();
         baseMaxHP = 100f;
-        baseMoveSpeed = 3f;
+        baseMoveSpeed = 2f;
         baseAttackPower = 10f;
         baseCoolDown = 1f;
         baseMagnetPower = 1f;
@@ -140,11 +174,6 @@ public class PlayerManager : MonoBehaviour
             currentExp -= maxExp;
             maxExp *= 1.5f;
             level++;
-            
-            baseMaxHP += 10f;
-            baseMoveSpeed += 0.3f;
-            baseAttackPower += 1f;
-
             UpdateStats();
             Debug.Log($"레벨업 현재 레벨: {level}");
             OnLevelUp?.Invoke();

@@ -1793,70 +1793,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587654832}
   m_CullTransparentMesh: 1
---- !u!1 &601896382
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 601896384}
-  - component: {fileID: 601896383}
-  m_Layer: 0
-  m_Name: UpgradeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &601896383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601896382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ce79a0c8310624db4f9993892f201d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allUpgrades:
-  - {fileID: 11400000, guid: 9ad693cbeddb3be47b9e4c97e3277e38, type: 2}
-  - {fileID: 11400000, guid: a6cd68dfd9c68ac4ea15029fb44a5af7, type: 2}
-  - {fileID: 11400000, guid: 8e529cb7225cef24bbff4421607a1d9f, type: 2}
-  - {fileID: 11400000, guid: 5717a810ebf1faa47b541cd534caf94f, type: 2}
-  - {fileID: 11400000, guid: 3fa999473c6074d4a803d76bbaa4b3f5, type: 2}
-  - {fileID: 11400000, guid: ddc40b7a5dc891446a6106eadf206aaa, type: 2}
-  - {fileID: 11400000, guid: b3dff77113d398546b332316a1e34313, type: 2}
-  - {fileID: 11400000, guid: 747619e2317fa9647a553880238e3c9c, type: 2}
-  - {fileID: 11400000, guid: 1627be586fac6984f92f73e4f464e026, type: 2}
-  - {fileID: 11400000, guid: 531d9af4b8424e9439aa23386cd51e64, type: 2}
-  - {fileID: 11400000, guid: 95b98cabc264fb64ca2469cb1589d47a, type: 2}
-  - {fileID: 11400000, guid: aa17017ce8fcb334db4b86bc2ab852cd, type: 2}
-  - {fileID: 11400000, guid: f604f06a338f42640bc382cbb8a9dd24, type: 2}
-  - {fileID: 11400000, guid: 9b51cfb4f0b28a04180bee77700e472e, type: 2}
-  - {fileID: 11400000, guid: 2125dc5447a81e54098f2d4fe21baa86, type: 2}
-  - {fileID: 11400000, guid: fa9728912c991ca4d81721b06c7afe5c, type: 2}
-  - {fileID: 11400000, guid: afb352e3a58450342bb2ea7eeb85eb88, type: 2}
-  - {fileID: 11400000, guid: 685f16b2896e85f4a91e01a4f927c732, type: 2}
-  - {fileID: 11400000, guid: 6a24ef4aea4b27748a8b750b4f96dace, type: 2}
---- !u!4 &601896384
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601896382}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.0949316, y: -7.963149, z: -0.26662707}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616303719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,6 +1889,7 @@ MonoBehaviour:
   descriptionText: {fileID: 908959313}
   iconImage: {fileID: 1512005411}
   button: {fileID: 203941194}
+  outlineEffect: {fileID: 0}
 --- !u!1 &641585986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,7 +2373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 1202980930}
-  moveSpeed: 3
   tiltAngle: 10
   tiltSpeed: 30
   player_sr: {fileID: 929110207}
@@ -2640,6 +2576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neckTransform: {fileID: 9022874}
+  neckRotationSpeed: 10
 --- !u!1 &1032958202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,6 +3283,7 @@ MonoBehaviour:
   descriptionText: {fileID: 393221155}
   iconImage: {fileID: 928396418}
   button: {fileID: 1342056458}
+  outlineEffect: {fileID: 0}
 --- !u!114 &1363642103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3519,6 +3457,31 @@ MonoBehaviour:
   - {fileID: 616303723}
   - {fileID: 1497902832}
   - {fileID: 1363642102}
+  animationDuration: 0.3
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1417176715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +3719,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483442417}
   m_CullTransparentMesh: 1
+--- !u!1 &1488037764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1488037766}
+  - component: {fileID: 1488037765}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1488037765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488037764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ce79a0c8310624db4f9993892f201d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allEquipmentUpgrades:
+  - {fileID: 11400000, guid: 685f16b2896e85f4a91e01a4f927c732, type: 2}
+  - {fileID: 11400000, guid: 6a24ef4aea4b27748a8b750b4f96dace, type: 2}
+  allStatUpgrades:
+  - {fileID: 11400000, guid: 3c229bc113639614d909f7d676fc4a00, type: 2}
+  - {fileID: 11400000, guid: ebd09950ef9f5fe4a8fcf8a548a9f077, type: 2}
+--- !u!4 &1488037766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488037764}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 185.88272, y: 1003.5576, z: -2.7115738}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1490700780
 GameObject:
   m_ObjectHideFlags: 0
@@ -3893,6 +3906,7 @@ MonoBehaviour:
   descriptionText: {fileID: 2014433441}
   iconImage: {fileID: 353141998}
   button: {fileID: 1081449909}
+  outlineEffect: {fileID: 0}
 --- !u!114 &1497902833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4905,4 +4919,4 @@ SceneRoots:
   - {fileID: 2145792942}
   - {fileID: 143440449}
   - {fileID: 177913407}
-  - {fileID: 601896384}
+  - {fileID: 1488037766}

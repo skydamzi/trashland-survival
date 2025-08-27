@@ -5,8 +5,10 @@ public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance;
 
-    public List<EquipmentData> allUpgrades;
-    private List<EquipmentData> availableUpgrades;
+    public List<EquipmentData> allEquipmentUpgrades;
+    public List<UpgradeData> allStatUpgrades;
+    private List<EquipmentData> availableEquipmentUpgrades;
+    private List<UpgradeData> availableStatUpgrades;
 
     void Awake()
     {
@@ -18,21 +20,32 @@ public class UpgradeManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         ResetAvailableUpgrades();
     }
 
     public void ResetAvailableUpgrades()
     {
-        availableUpgrades = new List<EquipmentData>(allUpgrades);
+        availableEquipmentUpgrades = new List<EquipmentData>(allEquipmentUpgrades);
+        availableStatUpgrades = new List<UpgradeData>(allStatUpgrades);
     }
 
-    public List<EquipmentData> GetRandomUpgrades(int count)
+    public List<object> GetRandomUpgrades(int count)
     {
-        List<EquipmentData> randomUpgrades = new List<EquipmentData>();
-        if (availableUpgrades.Count == 0) return randomUpgrades;
+        List<object> randomUpgrades = new List<object>();
+        List<object> allAvailableUpgrades = new List<object>();
+        foreach (var equip in availableEquipmentUpgrades)
+        {
+            allAvailableUpgrades.Add(equip);
+        }
+        foreach (var stat in availableStatUpgrades)
+        {
+            allAvailableUpgrades.Add(stat);
+        }
 
-        List<EquipmentData> tempList = new List<EquipmentData>(availableUpgrades);
+        if (allAvailableUpgrades.Count == 0) return randomUpgrades;
+
+        List<object> tempList = new List<object>(allAvailableUpgrades);
 
         int numToPick = Mathf.Min(count, tempList.Count);
         for (int i = 0; i < numToPick; i++)
@@ -45,24 +58,18 @@ public class UpgradeManager : MonoBehaviour
         return randomUpgrades;
     }
 
-    public void ApplyUpgrade(EquipmentData upgrade)
+    public void ApplyUpgrade(object data)
     {
-        PlayerManager player = PlayerManager.Instance;
-        if (player == null || upgrade == null) return;
-
-        player.acquiredUpgrades.Add(upgrade);
-
-        if (availableUpgrades.Contains(upgrade))
+        if (data is EquipmentData equipmentData)
         {
-            availableUpgrades.Remove(upgrade);
+            PlayerManager.Instance.acquiredUpgrades.Add(equipmentData);
+            availableEquipmentUpgrades.Remove(equipmentData);
         }
-
-        float oldMaxHP = player.maxHP;
-        player.UpdateStats();
-        float newMaxHP = player.maxHP;
-
-        player.currentHP += (newMaxHP - oldMaxHP);
-        
-        Debug.Log($"{upgrade.itemName} 적용 완료!");
+        else if (data is UpgradeData upgradeData)
+        {
+            PlayerManager.Instance.acquiredStatUpgrades.Add(upgradeData);
+            availableStatUpgrades.Remove(upgradeData);
+        }
+        PlayerManager.Instance.UpdateStats();
     }
 }

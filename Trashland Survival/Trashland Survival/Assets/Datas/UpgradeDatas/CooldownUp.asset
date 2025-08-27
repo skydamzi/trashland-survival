@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CooldownUp
   m_EditorClassIdentifier: 
   upgradeName: "\uACF5\uACA9\uC18D\uB3C4 \uAC15\uD654"
-  upgradeDescription: "\uACF5\uACA9\uC18D\uB3C4\uAC00 10% \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  upgradeDescription: "\uACF5\uACA9\uC18D\uB3C4\uAC00 10%\n\uC99D\uAC00\uD569\uB2C8\uB2E4."
   upgradeIcon: {fileID: 0}
   upgradeType: 3
-  value: 0.1
+  value: 10
