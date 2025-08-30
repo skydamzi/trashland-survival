@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
     public Text expText;
     public Text dayStatusText;
 
+    public AudioClip pauseSound;
+    public AudioClip clickSound;
+
     void Awake()
     {
         if (Instance == null)
@@ -124,6 +127,10 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseScreen()
     {
+        if (pauseSound != null)
+        {
+            SoundManager.Instance.PlaySFX(pauseSound);
+        }
         inGameUI.SetActive(false);
         pausePanel.SetActive(true);
     }
@@ -136,6 +143,10 @@ public class UIManager : MonoBehaviour
 
     public void ShowInGameUI()
     {
+        if (clickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(clickSound);
+        }
         if (inGameUI != null) inGameUI.SetActive(true);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (clearPanel != null) clearPanel.SetActive(false);
@@ -144,6 +155,10 @@ public class UIManager : MonoBehaviour
 
     public void ShowReadyScreen()
     {
+        if (clickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(clickSound);
+        }
         inGameUI.SetActive(false);
     }
 

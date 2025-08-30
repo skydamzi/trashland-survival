@@ -8,6 +8,7 @@ public class Gun : WeaponBase
     public float bulletSpeed = 30f;
     public float bulletLifeTime = 1f;
     public Transform neckTransform;
+    public AudioClip fireSound;
     private bool isStretching = false;
 
     void Start()
@@ -26,6 +27,11 @@ public class Gun : WeaponBase
         
         GameObject bullet = PoolManager.Instance.GetFromPool(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);
         if (bullet == null) return;
+
+        if (SoundManager.Instance != null && fireSound != null)
+        {
+            SoundManager.Instance.PlaySFX(fireSound);
+        }
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 

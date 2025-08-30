@@ -68,7 +68,6 @@ public class Monster : MonoBehaviour, IDamageable
         Vector3 startPosition = transform.position;
         Vector3 direction = (targetPosition - startPosition).normalized;
 
-        // 돌진 거리를 항상 고정된 chargeRange 값으로 사용합니다.
         float actualChargeDistance = chargeRange;
 
         GameObject warningSign = null;
@@ -86,7 +85,7 @@ public class Monster : MonoBehaviour, IDamageable
             }
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
 
         if (warningSign != null)
         {
@@ -94,7 +93,6 @@ public class Monster : MonoBehaviour, IDamageable
         }
 
         float chargeSpeed = monsterData.moveSpeed * chargeSpeedMultiplier;
-        // 돌진 시간도 고정된 거리를 기준으로 계산합니다.
         float chargeDuration = actualChargeDistance / chargeSpeed;
         float timer = 0f;
 

@@ -24,6 +24,7 @@ public class SoundManager : MonoBehaviour
     {
         bgmAudioSource.clip = clip;
         bgmAudioSource.loop = true; 
+        bgmAudioSource.volume = 0.2f;
         bgmAudioSource.Play();
     }
 

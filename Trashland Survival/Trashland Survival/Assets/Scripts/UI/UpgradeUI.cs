@@ -170,8 +170,6 @@ public class UpgradeUI : MonoBehaviour
             elapsedTime += Time.unscaledDeltaTime;
             float normalizedTime = elapsedTime / duration;
 
-            card.transform.position = Vector3.Lerp(startPosition, targetPosition, curve.Evaluate(normalizedTime));
-            
             card.transform.localScale = Vector3.Lerp(startScale, targetScale, curve.Evaluate(normalizedTime));
             yield return null;
         }

@@ -9,7 +9,6 @@ public class ExitButton : MonoBehaviour
     {
         if (exitButton != null)
         {
-
             exitButton.onClick.AddListener(GameManager.Instance.ExitGame);
         }
         else

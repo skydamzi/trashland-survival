@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class WeaponSwapButton : MonoBehaviour
 {
     private Button button;
+
     void Start()
     {
         button = GetComponent<Button>();

@@ -52,6 +52,8 @@ public class PlayerManager : MonoBehaviour
     private float baseMagnetPower;
     private float baseAttackRange;
 
+    public AudioClip damagedSound;
+
     void Awake()
     {
         if (Instance == null)
@@ -182,7 +184,7 @@ public class PlayerManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (isInvincible) return;
-
+        SoundManager.Instance.PlaySFX(damagedSound);
         currentHP -= damage;
         StartCoroutine(InvincibilityEffect());
         if (currentHP <= 0)

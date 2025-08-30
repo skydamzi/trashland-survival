@@ -9,7 +9,6 @@ public class StartButton : MonoBehaviour
     {
         if (startButton != null)
         {
-
             startButton.onClick.AddListener(GameManager.Instance.StartGame);
         }
         else
