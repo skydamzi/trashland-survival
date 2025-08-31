@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f1d17cbc4e26c4eaed1de4fc58a0bb, type: 3}
-  m_Name: Day1
+  m_Script: {fileID: 11500000, guid: 3295051981d846f419a1e24d3b0317a1, type: 3}
+  m_Name: RangedAttackPattern
   m_EditorClassIdentifier: 
-  waveDuration: 60
-  spawnInterval: 2
-  monstersInWave:
-  - monsterData: {fileID: 11400000, guid: 3c04098e2e94fac41b20d462a2e6bc11, type: 2}
-    count: 10
+  cooldown: 1.5
+  projectilePrefab: {fileID: 4989041984864787339, guid: d2d3ab2790403614cb4edac67fe317f2, type: 3}
+  attackRange: 8
+  projectileSpeed: 5
+  attackAnimDelay: 0.5

@@ -27,7 +27,7 @@ public class MonsterHitbox : MonoBehaviour, IDamageDealer
         }
 
         IDamageable damageable = other.GetComponent<IDamageable>();
-        if (damageable != null && other.GetComponent<PlayerDamagable>() != null)
+        if (damageable != null && other.GetComponent<PlayerDamageable>() != null)
         {
             damageable.TakeDamage(GetDamage());
         }

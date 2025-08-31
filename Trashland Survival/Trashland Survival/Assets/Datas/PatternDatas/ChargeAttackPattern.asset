@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c207af291ed5a0449acc14d615d3dd1, type: 3}
+  m_Name: ChargeAttackPattern
+  m_EditorClassIdentifier: 
+  cooldown: 3
+  chargeRange: 5
+  indicatorWidth: 0.8
+  chargeSpeedMultiplier: 10
+  warningDuration: 0.75
+  warningSignPrefab: {fileID: 1626620303736038879, guid: b6e51a80ad1a1ab488afd8d093e7cc95, type: 3}

@@ -695,6 +695,8 @@ MonoBehaviour:
   hpText: {fileID: 0}
   expText: {fileID: 0}
   dayStatusText: {fileID: 0}
+  pauseSound: {fileID: 0}
+  clickSound: {fileID: 0}
 --- !u!1 &1193575468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,6 +1299,10 @@ MonoBehaviour:
   - prefab: {fileID: 3695746801928777616, guid: 42985ec402c08884490e14cf1a610189, type: 3}
     size: 100
   - prefab: {fileID: 1626620303736038879, guid: b6e51a80ad1a1ab488afd8d093e7cc95, type: 3}
+    size: 100
+  - prefab: {fileID: 4989041984864787339, guid: d2d3ab2790403614cb4edac67fe317f2, type: 3}
+    size: 100
+  - prefab: {fileID: 3695746801928777616, guid: 8c8295f7005be8a46b4eb6b18f4fa9f9, type: 3}
     size: 100
 --- !u!114 &2129124842
 MonoBehaviour:

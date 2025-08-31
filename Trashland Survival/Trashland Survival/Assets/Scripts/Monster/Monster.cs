@@ -1,109 +1,75 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Monster : MonoBehaviour, IDamageable
 {
-    public MonsterData monsterData;
+    public MonsterData monsterData { get; private set; }
     private float currentHealth;
-    private Transform playerTransform;
+    public Transform playerTransform { get; private set; }
 
     private EliteMonsterData eliteData;
-    private bool isEliteWithCharge = false;
-    private bool isAttacking = false;
-    private float attackCooldown = 5f;
-    private float lastAttackTime;
-    public float chargeRange = 10f;
-    public float indicatorWidth = 0.2f;
-    public float chargeSpeedMultiplier = 8f;
-    public GameObject warningSignPrefab;
+    public bool isAttacking { get; set; }
 
-    void OnEnable()
+    private Dictionary<AttackPatternSO, float> attackCooldowns = new Dictionary<AttackPatternSO, float>();
+
+    public void Initialize(MonsterData data)
     {
-        if (monsterData != null)
-        {
-            currentHealth = monsterData.health;
-            eliteData = monsterData as EliteMonsterData;
-            if (eliteData != null && eliteData.attackPatterns.Contains(EliteAttackPattern.Charge))
-            {
-                isEliteWithCharge = true;
-                lastAttackTime = Time.time;
-            }
-            else
-            {
-                isEliteWithCharge = false;
-            }
-        }
+        monsterData = data;
+        currentHealth = monsterData.health;
+        eliteData = monsterData as EliteMonsterData;
 
         if (PlayerManager.Instance != null)
         {
             playerTransform = PlayerManager.Instance.playerTransform;
+        }
+
+        if (eliteData != null)
+        {
+            foreach (var pattern in eliteData.attackPatterns)
+            {
+                attackCooldowns[pattern] = -pattern.cooldown;
+            }
         }
         isAttacking = false;
     }
 
     void Update()
     {
-        if (playerTransform == null || monsterData == null) return;
+        if (playerTransform == null || monsterData == null || isAttacking) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-
-        if (isEliteWithCharge && !isAttacking && Time.time >= lastAttackTime + attackCooldown && distanceToPlayer <= chargeRange)
+        if (eliteData != null)
         {
-            StartCoroutine(ChargeAttack());
-        }
-
-        if (!isAttacking)
-        {
-            Vector3 direction = (playerTransform.position - transform.position).normalized;
-            transform.position += direction * monsterData.moveSpeed * Time.deltaTime;
-        }
-    }
-
-    private IEnumerator ChargeAttack()
-    {
-        isAttacking = true;
-        lastAttackTime = Time.time;
-
-        Vector3 targetPosition = playerTransform.position;
-        Vector3 startPosition = transform.position;
-        Vector3 direction = (targetPosition - startPosition).normalized;
-
-        float actualChargeDistance = chargeRange;
-
-        GameObject warningSign = null;
-        if (warningSignPrefab != null)
-        {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, 0, angle - 90); 
-
-            warningSign = PoolManager.Instance.GetFromPool(warningSignPrefab, startPosition, rotation);
-            
-            if (warningSign != null)
+            foreach (var pattern in eliteData.attackPatterns)
             {
-                warningSign.transform.localScale = new Vector3(indicatorWidth, actualChargeDistance, 1f);
-                warningSign.transform.position += warningSign.transform.up * (actualChargeDistance / 2);
+                if (Time.time >= attackCooldowns[pattern] + pattern.cooldown)
+                {
+                    float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+                    if (distanceToPlayer <= GetAttackRange(pattern))
+                    {
+                        attackCooldowns[pattern] = Time.time;
+                        pattern.Execute(this);
+                        return;
+                    }
+                }
             }
         }
 
-        yield return new WaitForSeconds(0.75f);
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
+        transform.position += direction * monsterData.moveSpeed * Time.deltaTime;
+    }
 
-        if (warningSign != null)
+    private float GetAttackRange(AttackPatternSO pattern)
+    {
+        if (pattern is RangedAttackPatternSO ranged)
         {
-            PoolManager.Instance.ReturnToPool(warningSign);
+            return ranged.attackRange;
         }
-
-        float chargeSpeed = monsterData.moveSpeed * chargeSpeedMultiplier;
-        float chargeDuration = actualChargeDistance / chargeSpeed;
-        float timer = 0f;
-
-        while (timer < chargeDuration)
+        if (pattern is ChargeAttackPatternSO charge)
         {
-            transform.position += direction * chargeSpeed * Time.deltaTime;
-            timer += Time.deltaTime;
-            yield return null;
+            return charge.chargeRange;
         }
-
-        isAttacking = false;
+        return float.MaxValue;
     }
 
     public void TakeDamage(float damage)

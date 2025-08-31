@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458ee77f60e6f4d418701836484edfcb, type: 3}
-  m_Name: EliteHexData
+  m_Name: EliteTriData
   m_EditorClassIdentifier: 
   monsterName: SonGay
-  prefab: {fileID: 3695746801928777616, guid: 42985ec402c08884490e14cf1a610189, type: 3}
+  prefab: {fileID: 3695746801928777616, guid: 8c8295f7005be8a46b4eb6b18f4fa9f9, type: 3}
   expGemPrefab: {fileID: 3704494115357454311, guid: 3b3e9cc0a485524428f0d3bebeb44ec3, type: 3}
   health: 150
   attackPower: 25
   moveSpeed: 1
   expAmount: 20
   attackPatterns:
-  - {fileID: 11400000, guid: fc3e0aefe76b11942b2b74c281489da1, type: 2}
+  - {fileID: 11400000, guid: cdc16893ff215d84ca7bcf1d4f331f8d, type: 2}

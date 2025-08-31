@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerDamagable : MonoBehaviour, IDamageable
+public class PlayerDamageable : MonoBehaviour, IDamageable
 {
     public void TakeDamage(float damage)
     {
