@@ -3828,26 +3828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ce79a0c8310624db4f9993892f201d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allEquipmentUpgrades:
-  - {fileID: 11400000, guid: 685f16b2896e85f4a91e01a4f927c732, type: 2}
-  - {fileID: 11400000, guid: 6a24ef4aea4b27748a8b750b4f96dace, type: 2}
-  - {fileID: 11400000, guid: aa17017ce8fcb334db4b86bc2ab852cd, type: 2}
-  - {fileID: 11400000, guid: 2125dc5447a81e54098f2d4fe21baa86, type: 2}
-  - {fileID: 11400000, guid: fa9728912c991ca4d81721b06c7afe5c, type: 2}
-  - {fileID: 11400000, guid: afb352e3a58450342bb2ea7eeb85eb88, type: 2}
-  - {fileID: 11400000, guid: f604f06a338f42640bc382cbb8a9dd24, type: 2}
-  - {fileID: 11400000, guid: 9b51cfb4f0b28a04180bee77700e472e, type: 2}
-  - {fileID: 11400000, guid: ddc40b7a5dc891446a6106eadf206aaa, type: 2}
-  - {fileID: 11400000, guid: 1627be586fac6984f92f73e4f464e026, type: 2}
-  - {fileID: 11400000, guid: 9ad693cbeddb3be47b9e4c97e3277e38, type: 2}
-  - {fileID: 11400000, guid: 3fa999473c6074d4a803d76bbaa4b3f5, type: 2}
-  - {fileID: 11400000, guid: 95b98cabc264fb64ca2469cb1589d47a, type: 2}
-  - {fileID: 11400000, guid: 8e529cb7225cef24bbff4421607a1d9f, type: 2}
-  - {fileID: 11400000, guid: 747619e2317fa9647a553880238e3c9c, type: 2}
-  - {fileID: 11400000, guid: 531d9af4b8424e9439aa23386cd51e64, type: 2}
-  - {fileID: 11400000, guid: a6cd68dfd9c68ac4ea15029fb44a5af7, type: 2}
-  - {fileID: 11400000, guid: 5717a810ebf1faa47b541cd534caf94f, type: 2}
-  - {fileID: 11400000, guid: b3dff77113d398546b332316a1e34313, type: 2}
+  allEquipmentUpgrades: []
   allStatUpgrades:
   - {fileID: 11400000, guid: 3c229bc113639614d909f7d676fc4a00, type: 2}
   - {fileID: 11400000, guid: ebd09950ef9f5fe4a8fcf8a548a9f077, type: 2}
@@ -4414,6 +4395,7 @@ MonoBehaviour:
   pausePanel: {fileID: 1915313206}
   inGameUI: {fileID: 1168518969}
   upgradeUI: {fileID: 1403875091}
+  equipmentUI: {fileID: 0}
   hpText: {fileID: 1803524728}
   expText: {fileID: 277826535}
   dayStatusText: {fileID: 780534528}

@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     public GameObject clearPanel;
     public GameObject pausePanel;
     public GameObject inGameUI;
-    public UpgradeUI upgradeUI; // 업그레이드 UI 참조
+    public UpgradeUI upgradeUI;
+    public EquipmentUI equipmentUI;
     public Text hpText;
     public Text expText;
     public Text dayStatusText;
@@ -166,7 +167,19 @@ public class UIManager : MonoBehaviour
     {
         if (dayStatusText != null)
         {
-            dayStatusText.text = $"DAY {dayNumber} 진행중";
+            dayStatusText.text = $"DAY {dayNumber} 진행 중";
         }
+    }
+
+    public void ShowEquipmentScreen()
+    {
+        if (inGameUI != null) inGameUI.SetActive(false);
+        if (equipmentUI != null) equipmentUI.Show();
+    }
+
+    public void HideEquipmentScreen()
+    {
+        if (equipmentUI != null) equipmentUI.Hide();
+        if (inGameUI != null) inGameUI.SetActive(true);
     }
 }
