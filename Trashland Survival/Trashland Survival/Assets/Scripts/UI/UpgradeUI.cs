@@ -80,15 +80,50 @@ public class UpgradeUI : MonoBehaviour
     private IEnumerator AnimateCard(UpgradeCardUI card)
     {
         float elapsedTime = 0f;
-        while (elapsedTime < animationDuration)
+        float duration = animationDuration;
+        Vector3 finalScale = Vector3.one;
+
+        if (card.nameText != null) card.nameText.color = new Color(card.nameText.color.r, card.nameText.color.g, card.nameText.color.b, 0);
+        if (card.descriptionText != null) card.descriptionText.color = new Color(card.descriptionText.color.r, card.descriptionText.color.g, card.descriptionText.color.b, 0);
+        if (card.iconImage != null) card.iconImage.color = new Color(card.iconImage.color.r, card.iconImage.color.g, card.iconImage.color.b, 0);
+        if (card.outlineEffect != null) card.outlineEffect.enabled = false;
+
+        card.transform.localScale = Vector3.zero;
+        card.transform.rotation = Quaternion.identity;
+
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.unscaledDeltaTime;
-            float normalizedTime = elapsedTime / animationDuration;
-            float scale = scaleCurve.Evaluate(normalizedTime);
-            card.transform.localScale = Vector3.one * scale;
+            float normalizedTime = elapsedTime / duration;
+            float scaleValue = scaleCurve.Evaluate(normalizedTime);
+            card.transform.localScale = finalScale * scaleValue;
+
+            if (normalizedTime < 0.5f)
+            {
+                card.transform.rotation = Quaternion.Euler(0, Mathf.Lerp(0, 90, normalizedTime * 2), 0);
+            }
+            else
+            {
+                if (card.outlineEffect != null && !card.outlineEffect.enabled) 
+                {
+                    card.outlineEffect.enabled = true;
+                }
+
+                card.transform.rotation = Quaternion.Euler(0, Mathf.Lerp(-90, 0, (normalizedTime - 0.5f) * 2), 0);
+                
+                float fadeInNormalizedTime = (normalizedTime - 0.5f) * 2;
+                if (card.nameText != null) card.nameText.color = new Color(card.nameText.color.r, card.nameText.color.g, card.nameText.color.b, fadeInNormalizedTime);
+                if (card.descriptionText != null) card.descriptionText.color = new Color(card.descriptionText.color.r, card.descriptionText.color.g, card.descriptionText.color.b, fadeInNormalizedTime);
+                if (card.iconImage != null) card.iconImage.color = new Color(card.iconImage.color.r, card.iconImage.color.g, card.iconImage.color.b, fadeInNormalizedTime);
+            }
             yield return null;
         }
-        card.transform.localScale = Vector3.one;
+
+        card.transform.localScale = finalScale;
+        card.transform.rotation = Quaternion.identity;
+        if (card.nameText != null) card.nameText.color = new Color(card.nameText.color.r, card.nameText.color.g, card.nameText.color.b, 1);
+        if (card.descriptionText != null) card.descriptionText.color = new Color(card.descriptionText.color.r, card.descriptionText.color.g, card.descriptionText.color.b, 1);
+        if (card.iconImage != null) card.iconImage.color = new Color(card.iconImage.color.r, card.iconImage.color.g, card.iconImage.color.b, 1);
     }
 
 
@@ -133,7 +168,7 @@ public class UpgradeUI : MonoBehaviour
         Vector3 targetScale = originalScale * 1.1f;
 
         Vector3 originalPosition = card.transform.localPosition;
-        Vector3 targetPosition = originalPosition + new Vector3(0, 50f, 0);
+        Vector3 targetPosition = originalPosition + new Vector3(0, 30f, 0);
 
         float elapsedTime = 0f;
         float moveScaleDuration = 0.2f;

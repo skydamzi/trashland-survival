@@ -2042,7 +2042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0021734c807b7f842b55c735fc5651b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseSound: {fileID: 8300000, guid: 96f2a918bff87be419ce722011e4550e, type: 3}
 --- !u!1 &739590718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2775,7 +2774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8aac0a150acfd8448566aebd498808e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resumeSound: {fileID: 8300000, guid: 2a4e5f5e58fed4b48b4a425fd82516cd, type: 3}
 --- !u!1 &1081449907
 GameObject:
   m_ObjectHideFlags: 0
@@ -3539,7 +3537,7 @@ MonoBehaviour:
   - {fileID: 616303723}
   - {fileID: 1497902832}
   - {fileID: 1363642102}
-  animationDuration: 0.3
+  animationDuration: 0.5
   scaleCurve:
     serializedVersion: 2
     m_Curve:
