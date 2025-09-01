@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(Canvas))]
 public class EquipmentUI : MonoBehaviour
 {
     public Transform inventoryContent;
@@ -12,30 +11,12 @@ public class EquipmentUI : MonoBehaviour
     public List<Image> accessorySlots = new List<Image>(4);
     public Image shoesSlot;
 
-    private Canvas equipmentCanvas;
-
-     
-
-    void Awake()
+    void OnEnable()
     {
-        equipmentCanvas = GetComponent<Canvas>();
-        equipmentCanvas.enabled = false;
-    }
-
-    public void Show()
-    {
-        equipmentCanvas.enabled = true;
-        Time.timeScale = 0;
         RefreshUI();
     }
-
-    public void Hide()
-    {
-        equipmentCanvas.enabled = false;
-        Time.timeScale = 1;
-    }
-
-    private void RefreshUI()
+    
+    public void RefreshUI()
     {
         PopulateInventory();
         UpdateEquippedSlots();

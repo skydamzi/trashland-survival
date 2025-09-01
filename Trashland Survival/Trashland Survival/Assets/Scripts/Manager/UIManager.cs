@@ -1,16 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    // 인 게임 관련
     public GameObject gameOverPanel;
     public GameObject clearPanel;
     public GameObject pausePanel;
     public GameObject inGameUI;
     public UpgradeUI upgradeUI;
-    public EquipmentUI equipmentUI;
     public Text hpText;
     public Text expText;
     public Text dayStatusText;
@@ -170,16 +172,24 @@ public class UIManager : MonoBehaviour
             dayStatusText.text = $"DAY {dayNumber} 진행 중";
         }
     }
+    
+    // 메인 화면 관련
+    public GameObject bottomNavigationBar;
+    public List<GameObject> navigationPanels;
 
-    public void ShowEquipmentScreen()
+    public void SwitchToPanel(GameObject panelToShow)
     {
-        if (inGameUI != null) inGameUI.SetActive(false);
-        if (equipmentUI != null) equipmentUI.Show();
-    }
-
-    public void HideEquipmentScreen()
-    {
-        if (equipmentUI != null) equipmentUI.Hide();
-        if (inGameUI != null) inGameUI.SetActive(true);
+        bottomNavigationBar.SetActive(true);
+        if (navigationPanels != null)
+        {
+            foreach (var panel in navigationPanels)
+            {
+                panel.SetActive(false);
+            }
+        }
+        if (panelToShow != null)
+        {
+            panelToShow.SetActive(true);
+        }
     }
 }
