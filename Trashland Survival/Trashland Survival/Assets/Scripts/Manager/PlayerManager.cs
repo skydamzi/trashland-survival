@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
 
     public AudioClip damagedSound;
 
-    void Awake()
+        void Awake()
     {
         if (Instance == null)
         {
@@ -65,7 +65,9 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return; // 중복 인스턴스일 경우, 이후 로직을 실행하지 않도록 즉시 반환
         }
+
         playerAttackController = FindFirstObjectByType<PlayerAttackController>();
     }
 
