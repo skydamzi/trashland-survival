@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c03ce0999c32beb45b17fd1d20a4644e, type: 3}
+  m_Name: AreaAttackPattern
+  m_EditorClassIdentifier: 
+  cooldown: 3
+  attackRange: 7
+  attackRadius: 2
+  warningDuration: 1
+  attackDuration: 0.5
+  warningIndicatorPrefab: {fileID: 3053622330517287340, guid: 11f22fc390bb21044a49f0589f6e9d1c, type: 3}
+  damageAreaPrefab: {fileID: 787197780188834247, guid: d9bb76b99564bc44eaf142d7181c2a47, type: 3}

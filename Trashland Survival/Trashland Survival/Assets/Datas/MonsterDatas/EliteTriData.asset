@@ -20,4 +20,4 @@ MonoBehaviour:
   moveSpeed: 1
   expAmount: 20
   attackPatterns:
-  - {fileID: 11400000, guid: cdc16893ff215d84ca7bcf1d4f331f8d, type: 2}
+  - {fileID: 11400000, guid: 901de8e0cae16f44eb7142e9022edfbf, type: 2}

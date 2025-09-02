@@ -69,6 +69,10 @@ public class Monster : MonoBehaviour, IDamageable
         {
             return charge.chargeRange;
         }
+        if (pattern is AreaAttackPatternSO area)
+        {
+            return area.attackRange;
+        }
         return float.MaxValue;
     }
 
