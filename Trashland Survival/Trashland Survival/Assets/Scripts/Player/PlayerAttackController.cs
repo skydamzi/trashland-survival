@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerAttackController : MonoBehaviour
 {
-    private WeaponBase currentWeapon;
     private Gun gun;
-    private Punch punch;
     private float nextFireTime = 0f;
 
     public Transform neckTransform;
@@ -14,49 +12,10 @@ public class PlayerAttackController : MonoBehaviour
 
     public float neckRotationSpeed = 10f;
 
-    void OnEnable()
-    {
-        GameEvents.OnWeaponSwapRequested.AddListener(UpdateWeapon);
-    }
-
-    void OnDisable()
-    {
-        GameEvents.OnWeaponSwapRequested.RemoveListener(UpdateWeapon);
-    }
-
     void Start()
     {
         gun = GetComponentInChildren<Gun>(true);
-        punch = GetComponentInChildren<Punch>(true);
-
-
-        gun.gameObject.SetActive(false);
-        punch.gameObject.SetActive(false);
-
-        UpdateWeapon();
-    }
-
-    public void UpdateWeapon()
-    {
-        if (currentWeapon != null)
-        {
-            currentWeapon.gameObject.SetActive(false);
-        }
-
-        string selectedType = PlayerManager.Instance.weaponType;
-        if (selectedType == "Gun")
-        {
-            currentWeapon = gun;
-        }
-        else if (selectedType == "Punch")
-        {
-            currentWeapon = punch;
-        }
-
-        if (currentWeapon != null)
-        {
-            currentWeapon.gameObject.SetActive(true);
-        }
+        gun.gameObject.SetActive(true);
     }
 
     void Update()
@@ -72,7 +31,7 @@ public class PlayerAttackController : MonoBehaviour
         {
             if (target != null)
             {
-                currentWeapon.Attack(target);
+                gun.Attack(target);
                 nextFireTime = Time.time + PlayerManager.Instance.coolDown;
             }
         }

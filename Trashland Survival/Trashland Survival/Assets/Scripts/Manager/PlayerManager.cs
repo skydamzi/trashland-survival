@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
 
     public AudioClip damagedSound;
 
-        void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -65,9 +65,7 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return; // 중복 인스턴스일 경우, 이후 로직을 실행하지 않도록 즉시 반환
         }
-
         playerAttackController = FindFirstObjectByType<PlayerAttackController>();
     }
 
@@ -151,14 +149,12 @@ public class PlayerManager : MonoBehaviour
     void OnEnable()
     {
         GameEvents.OnNewGameStarted += ResetStats;
-        GameEvents.OnWeaponSwapRequested.AddListener(HandleWeaponSwapRequest);
         EquipmentManager.OnEquipmentChanged += UpdateStats;
     }
 
     void OnDisable()
     {
         GameEvents.OnNewGameStarted -= ResetStats;
-        GameEvents.OnWeaponSwapRequested.RemoveListener(HandleWeaponSwapRequest);
         EquipmentManager.OnEquipmentChanged -= UpdateStats;
     }
 
@@ -251,34 +247,5 @@ public class PlayerManager : MonoBehaviour
         }
 
         isInvincible = false;
-    }
-
-    private void HandleWeaponSwapRequest()
-    {
-        string currentWeapon = weaponType;
-        string nextWeapon = "";
-
-        switch (currentWeapon)
-        {
-            case "Gun":
-                nextWeapon = "Punch";
-                break;
-            case "Punch":
-                nextWeapon = "Boomerang";
-                break;
-            case "Boomerang":
-                nextWeapon = "Gun";
-                break;
-            default:
-                nextWeapon = "Gun";
-                break;
-        }
-
-        weaponType = nextWeapon;
-
-        if (playerAttackController != null)
-        {
-            playerAttackController.UpdateWeapon();
-        }
     }
 }

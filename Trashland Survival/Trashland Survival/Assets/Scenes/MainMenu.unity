@@ -3730,8 +3730,6 @@ MonoBehaviour:
     size: 100
   - prefab: {fileID: 3704494115357454311, guid: 3b3e9cc0a485524428f0d3bebeb44ec3, type: 3}
     size: 1000
-  - prefab: {fileID: 1939452059527891407, guid: bb5523548a0337b4386467f26e611c69, type: 3}
-    size: 1
   - prefab: {fileID: 3695746801928777616, guid: f8bd9413e864e954887d29a31b3c5162, type: 3}
     size: 100
   - prefab: {fileID: 3695746801928777616, guid: a64e311af139b8840b3440e739e70680, type: 3}
@@ -3751,6 +3749,8 @@ MonoBehaviour:
   - prefab: {fileID: 3053622330517287340, guid: 11f22fc390bb21044a49f0589f6e9d1c, type: 3}
     size: 100
   - prefab: {fileID: 787197780188834247, guid: d9bb76b99564bc44eaf142d7181c2a47, type: 3}
+    size: 100
+  - prefab: {fileID: 7719337522359122961, guid: 78dc8627c6ac74640bd07e8098532f70, type: 3}
     size: 100
 --- !u!114 &2129124842
 MonoBehaviour:

@@ -106,6 +106,13 @@ public class UpgradeManager : MonoBehaviour
                         boomerang.EnableBoomerang();
                     }
                     break;
+                case WeaponType.Laser:
+                    Laser laser = player.GetComponentInChildren<Laser>(true);
+                    if (laser != null)
+                    {
+                        laser.EnableLaser();
+                    }
+                    break;
                 // 다른 무기 타입도 여기에 추가
             }
         }

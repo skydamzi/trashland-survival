@@ -15,7 +15,7 @@ MonoBehaviour:
   cooldown: 3
   attackRange: 7
   attackRadius: 2
-  warningDuration: 1
+  warningDuration: 2
   attackDuration: 0.5
   warningIndicatorPrefab: {fileID: 3053622330517287340, guid: 11f22fc390bb21044a49f0589f6e9d1c, type: 3}
   damageAreaPrefab: {fileID: 787197780188834247, guid: d9bb76b99564bc44eaf142d7181c2a47, type: 3}
