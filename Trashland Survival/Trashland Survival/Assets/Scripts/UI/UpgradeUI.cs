@@ -136,7 +136,6 @@ public class UpgradeUI : MonoBehaviour
     private IEnumerator AnimateHide()
     {
         float elapsedTime = 0f;
-        Vector3 startScale = upgradePanel.transform.localScale;
         
         while (elapsedTime < animationDuration)
         {

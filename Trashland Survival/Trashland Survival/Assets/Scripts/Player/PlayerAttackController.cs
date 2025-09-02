@@ -7,8 +7,6 @@ public class PlayerAttackController : MonoBehaviour
     private WeaponBase currentWeapon;
     private Gun gun;
     private Punch punch;
-    private Boomerang boomerang;
-
     private float nextFireTime = 0f;
 
     public Transform neckTransform;
@@ -30,11 +28,10 @@ public class PlayerAttackController : MonoBehaviour
     {
         gun = GetComponentInChildren<Gun>(true);
         punch = GetComponentInChildren<Punch>(true);
-        boomerang = GetComponentInChildren<Boomerang>(true);
+
 
         gun.gameObject.SetActive(false);
         punch.gameObject.SetActive(false);
-        boomerang.gameObject.SetActive(false);
 
         UpdateWeapon();
     }
@@ -54,10 +51,6 @@ public class PlayerAttackController : MonoBehaviour
         else if (selectedType == "Punch")
         {
             currentWeapon = punch;
-        }
-        else if (selectedType == "Boomerang")
-        {
-            currentWeapon = boomerang;
         }
 
         if (currentWeapon != null)

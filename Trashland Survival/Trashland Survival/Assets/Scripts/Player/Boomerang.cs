@@ -1,77 +1,93 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
-public class Boomerang : WeaponBase
+public class Boomerang : MonoBehaviour
 {
     public GameObject boomerangPrefab;
+    public Transform weaponSpawnPoint;
+    public float boomerangSpeed = 10f;
+    public float boomerangLifeTime = 3f;
+    public AudioClip fireSound;
+    public int triggerCount = 3;
+    private int attackCount = 0;
+    private PlayerAttackController playerAttackController;
     private bool isBoomerangActive = false;
-    private Renderer neckRenderer;
-    private Transform neckTransform;
 
     void Start()
     {
-        PlayerAttackController playerAttackController = GetComponentInParent<PlayerAttackController>();
-        if (playerAttackController != null && playerAttackController.neckTransform != null)
+        playerAttackController = GetComponentInParent<PlayerAttackController>();
+        this.enabled = false;
+    }
+
+    void OnEnable()
+    {
+        Gun.OnPlayerAttack += OnGunAttack;
+        attackCount = 0;
+    }
+
+    void OnDisable()
+    {
+        Gun.OnPlayerAttack -= OnGunAttack;
+    }
+
+    public void EnableBoomerang()
+    {
+        this.enabled = true;
+        attackCount = 0;
+        Debug.Log("부메랑 활성화");
+    }
+
+    public void DisableBoomerang()
+    {
+        this.enabled = false;
+        Debug.Log("부메랑 비활성화");
+    }
+
+    private void OnGunAttack()
+    {
+        attackCount++;
+        if (attackCount >= triggerCount)
         {
-            neckTransform = playerAttackController.neckTransform;
-            neckRenderer = neckTransform.GetComponent<Renderer>();
+            Debug.Log("attackCount: " + attackCount);
+            Transform target = playerAttackController?.FindNearestMonster();
+            Attack(target);
+            attackCount = 0;
+        }
+        else
+        {
+            Debug.Log("부메랑 카운트: " + attackCount + "/" + triggerCount);
         }
     }
 
-    public override void Attack(Transform target)
+    public void Attack(Transform target)
     {
         if (isBoomerangActive || boomerangPrefab == null) return;
 
         isBoomerangActive = true;
-        
-        if (neckRenderer != null)
-        {
-            neckRenderer.enabled = false;
-        }
 
-        // Instantiate 대신 GetFromPool 사용
-        GameObject boomerangInstance = PoolManager.Instance.GetFromPool(boomerangPrefab, transform.position, Quaternion.identity);
+        GameObject boomerangInstance = PoolManager.Instance.GetFromPool(boomerangPrefab, weaponSpawnPoint.position, Quaternion.identity);
         if (boomerangInstance == null) 
         {
-            isBoomerangActive = false; // 풀에서 가져오기 실패 시 공격 상태 초기화
+            isBoomerangActive = false;
             return;
         }
 
-        BoomerangProjectile projectile = boomerangInstance.GetComponent<BoomerangProjectile>();
-
-        if (projectile != null)
+        if (SoundManager.Instance != null && fireSound != null)
         {
-            projectile.Initialize(this, target, PlayerManager.Instance.attackPower, PlayerManager.Instance.attackRange);
+            SoundManager.Instance.PlaySFX(fireSound);
+        }
+
+        BoomerangBullet bullet = boomerangInstance.GetComponent<BoomerangBullet>();
+
+        if (bullet != null)
+        {
+            bullet.Initialize(this, target, PlayerManager.Instance.attackPower, PlayerManager.Instance.attackRange, boomerangLifeTime);
         }
     }
 
-    public void OnBoomerangReturned(Quaternion finalProjectileRotation)
+    public void OnBoomerangReturned()
     {
         isBoomerangActive = false;
-        if (neckTransform != null)
-        {
-            StartCoroutine(SettleRotation(finalProjectileRotation));
-        }
-    }
-
-    private IEnumerator SettleRotation(Quaternion startRotation)
-    {
-        if (neckRenderer != null)
-        {
-            neckRenderer.enabled = true;
-        }
-
-        float duration = 0.2f; 
-        float timer = 0f;
-
-        Quaternion endRotation = neckTransform.parent.rotation;
-
-        while (timer < duration)
-        {
-            neckTransform.rotation = Quaternion.Slerp(startRotation, endRotation, timer / duration);
-            timer += Time.deltaTime;
-            yield return null;
-        }
     }
 }
-

@@ -98,7 +98,15 @@ public class UpgradeManager : MonoBehaviour
                         shotgun.EnableShotgun();
                     }
                     break;
-                // 다른 무기 타입 여기에 추가
+
+                case WeaponType.Boomerang:
+                    Boomerang boomerang = player.GetComponentInChildren<Boomerang>(true);
+                    if (boomerang != null)
+                    {
+                        boomerang.EnableBoomerang();
+                    }
+                    break;
+                // 다른 무기 타입도 여기에 추가
             }
         }
     }

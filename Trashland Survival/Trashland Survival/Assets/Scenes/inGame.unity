@@ -924,12 +924,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 303682590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca86574217518b49a293bf4e3595edc, type: 3}
+  m_Script: {fileID: 11500000, guid: 24497f709642d5240a354e5c6fafc285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  coolDown: 0
-  boomerangPrefab: {fileID: 1939452059527891407, guid: bb5523548a0337b4386467f26e611c69, type: 3}
+  boomerangPrefab: {fileID: 6202551220563633395, guid: 61c9f1f832177c44ab164a1645560272, type: 3}
+  weaponSpawnPoint: {fileID: 39135285}
+  boomerangSpeed: 10
+  boomerangLifeTime: 3
+  fireSound: {fileID: 0}
+  triggerCount: 2
 --- !u!1 &332609279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,8 +2461,8 @@ Transform:
   - {fileID: 9022874}
   - {fileID: 457514140}
   - {fileID: 1315409136}
-  - {fileID: 75896009}
   - {fileID: 303682591}
+  - {fileID: 75896009}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &929110205
@@ -3891,6 +3894,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 738e1c4d243245240a9ad5809f52028f, type: 2}
   allWeaponUpgrades:
   - {fileID: 11400000, guid: a204b64580e756d49b59d22d3a17dfb3, type: 2}
+  - {fileID: 11400000, guid: 8365cb13f61a941488a6b2b657fa4e04, type: 2}
 --- !u!4 &1488037766
 Transform:
   m_ObjectHideFlags: 0
