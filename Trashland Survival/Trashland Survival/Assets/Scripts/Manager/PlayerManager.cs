@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
-    public event Action OnHpChanged, OnExpChanged, OnLevelUp;
+    public event Action OnHpChanged, OnExpChanged;
+    public event Action<int> OnLevelUp;
 
     public int level;
     public float maxHP;
@@ -70,14 +71,46 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdateStats()
     {
-        float currentBaseMaxHP = baseMaxHP;
-        float currentBaseMoveSpeed = baseMoveSpeed;
-        float currentBaseAttackPower = baseAttackPower;
-        float currentBaseCoolDown = baseCoolDown;
-        float currentBaseMagnetPower = baseMagnetPower;
-        float currentBaseAttackRange = baseAttackRange;
+        float augmentHealthPercent = 0;
+        float augmentMoveSpeedPercent = 0;
+        float augmentAttackPowerPercent = 0;
+        float augmentCooldownPercent = 0;
+        float augmentMagnetPercent = 0;
+        float augmentAttackRangePercent = 0;
+
+        foreach (var statUpgrade in acquiredStatUpgrades)
+        {
+            switch (statUpgrade.upgradeType)
+            {
+                case UpgradeType.Health:
+                    augmentHealthPercent += statUpgrade.value;
+                    break;
+                case UpgradeType.AttackPower:
+                    augmentAttackPowerPercent += statUpgrade.value;
+                    break;
+                case UpgradeType.MoveSpeed:
+                    augmentMoveSpeedPercent += statUpgrade.value;
+                    break;
+                case UpgradeType.CooldownReduction:
+                    augmentCooldownPercent += statUpgrade.value;
+                    break;
+                case UpgradeType.Magnet:
+                    augmentMagnetPercent += statUpgrade.value;
+                    break;
+                case UpgradeType.AttackRange:
+                    augmentAttackRangePercent += statUpgrade.value;
+                    break;
+            }
+        }
+
+        float augmentedMaxHP = baseMaxHP * (1 + augmentHealthPercent / 100f);
+        float augmentedMoveSpeed = baseMoveSpeed * (1 + augmentMoveSpeedPercent / 100f);
+        float augmentedAttackPower = baseAttackPower * (1 + augmentAttackPowerPercent / 100f);
+        float augmentedCoolDown = baseCoolDown * (1 - augmentCooldownPercent / 100f);
+        float augmentedMagnetPower = baseMagnetPower * (1 + augmentMagnetPercent / 100f);
+        float augmentedAttackRange = baseAttackRange * (1 + augmentAttackRangePercent / 100f);
+
         acquiredUpgrades.Clear();
-        
         if (EquipmentManager.Instance != null)
         {
             foreach (var list in EquipmentManager.Instance.equippedItems.Values)
@@ -86,54 +119,30 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        foreach (var statUpgrade in acquiredStatUpgrades)
+        float equipHealthPercent = 0;
+        float equipMoveSpeedPercent = 0;
+        float equipAttackPowerPercent = 0;
+        float equipCooldownPercent = 0;
+        float equipMagnetPercent = 0;
+        float equipAttackRangePercent = 0;
+
+        foreach (var equip in acquiredUpgrades)
         {
-            switch (statUpgrade.upgradeType)
-            {
-                case UpgradeType.Health:
-                    currentBaseMaxHP += baseMaxHP * (statUpgrade.value / 100f);
-                    break;
-                case UpgradeType.AttackPower:
-                    currentBaseAttackPower += baseAttackPower * (statUpgrade.value / 100f);
-                    break;
-                case UpgradeType.MoveSpeed:
-                    currentBaseMoveSpeed += baseMoveSpeed * (statUpgrade.value / 100f);
-                    break;
-                case UpgradeType.CooldownReduction:
-                    currentBaseCoolDown -= baseCoolDown * (statUpgrade.value / 100f);
-                    break;
-                case UpgradeType.Magnet:
-                    currentBaseMagnetPower += baseMagnetPower * (statUpgrade.value / 100f);
-                    break;
-                case UpgradeType.AttackRange:
-                    currentBaseAttackRange += baseAttackRange * (statUpgrade.value / 100f);
-                    break;
-            }
+            equipHealthPercent += equip.healthBonus;
+            equipMoveSpeedPercent += equip.moveSpeedBonus;
+            equipAttackPowerPercent += equip.attackPowerBonus;
+            equipCooldownPercent += equip.cooldownReduction;
+            equipMagnetPercent += equip.magnetBonus;
+            equipAttackRangePercent += equip.attackRangeBonus;
         }
 
-        float totalHealthBonus = 0;
-        float totalMoveSpeedBonus = 0;
-        float totalAttackPowerBonus = 0;
-        float totalCooldownReduction = 0;
-        float totalMagnetBonus = 0;
-        float totalAttackRangeBonus = 0;
+        maxHP = augmentedMaxHP * (1 + equipHealthPercent / 100f);
+        moveSpeed = augmentedMoveSpeed * (1 + equipMoveSpeedPercent / 100f);
+        attackPower = augmentedAttackPower * (1 + equipAttackPowerPercent / 100f);
+        coolDown = augmentedCoolDown * (1 - equipCooldownPercent / 100f);
+        magnetPower = augmentedMagnetPower * (1 + equipMagnetPercent / 100f);
+        attackRange = augmentedAttackRange * (1 + equipAttackRangePercent / 100f);
 
-        foreach (var upgrade in acquiredUpgrades)
-        {
-            totalHealthBonus += upgrade.healthBonus;
-            totalMoveSpeedBonus += upgrade.moveSpeedBonus;
-            totalAttackPowerBonus += upgrade.attackPowerBonus;
-            totalCooldownReduction += upgrade.cooldownReduction;
-            totalMagnetBonus += upgrade.magnetBonus;
-            totalAttackRangeBonus += upgrade.attackRangeBonus;
-        }
-
-        maxHP = currentBaseMaxHP + totalHealthBonus;
-        moveSpeed = currentBaseMoveSpeed * (1 + totalMoveSpeedBonus / 100f);
-        attackPower = currentBaseAttackPower * (1 + totalAttackPowerBonus / 100f);
-        coolDown = currentBaseCoolDown * (1 - totalCooldownReduction / 100f);
-        magnetPower = currentBaseMagnetPower * (1 + totalMagnetBonus / 100f);
-        attackRange = currentBaseAttackRange * (1 + totalAttackRangeBonus / 100f);
         OnHpChanged?.Invoke();
     }
 
@@ -183,15 +192,23 @@ public class PlayerManager : MonoBehaviour
 
     void LevelUpCheck()
     {
-        if (currentExp >= maxExp)
+        if (currentExp < maxExp) return;
+
+        int levelUpCount = 0;
+        while (currentExp >= maxExp)
         {
             currentExp -= maxExp;
             maxExp *= 1.5f;
             level++;
+            levelUpCount++;
             UpdateStats();
             Debug.Log($"레벨업 현재 레벨: {level}");
-            OnLevelUp?.Invoke();
             OnExpChanged?.Invoke();
+        }
+
+        if (levelUpCount > 0)
+        {
+            OnLevelUp?.Invoke(levelUpCount);
         }
     }
     public void TakeDamage(float damage)

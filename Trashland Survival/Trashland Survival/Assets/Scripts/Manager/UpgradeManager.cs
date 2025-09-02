@@ -7,8 +7,10 @@ public class UpgradeManager : MonoBehaviour
 
     public List<EquipmentData> allEquipmentUpgrades;
     public List<UpgradeData> allStatUpgrades;
+    public List<WeaponData> allWeaponUpgrades;
     private List<EquipmentData> availableEquipmentUpgrades;
     private List<UpgradeData> availableStatUpgrades;
+    private List<WeaponData> availableWeaponUpgrades;
 
     void Awake()
     {
@@ -28,6 +30,7 @@ public class UpgradeManager : MonoBehaviour
     {
         availableEquipmentUpgrades = new List<EquipmentData>(allEquipmentUpgrades);
         availableStatUpgrades = new List<UpgradeData>(allStatUpgrades);
+        availableWeaponUpgrades = new List<WeaponData>(allWeaponUpgrades);
     }
 
     public List<object> GetRandomUpgrades(int count)
@@ -41,6 +44,10 @@ public class UpgradeManager : MonoBehaviour
         foreach (var stat in availableStatUpgrades)
         {
             allAvailableUpgrades.Add(stat);
+        }
+        foreach (var weapon in availableWeaponUpgrades)
+        {
+            allAvailableUpgrades.Add(weapon);
         }
 
         if (allAvailableUpgrades.Count == 0) return randomUpgrades;
@@ -69,6 +76,30 @@ public class UpgradeManager : MonoBehaviour
         {
             PlayerManager.Instance.acquiredStatUpgrades.Add(upgradeData);
         }
+        else if (data is WeaponData weaponData)
+        {
+            EnableWeapon(weaponData);
+            availableWeaponUpgrades.Remove(weaponData);
+        }
         PlayerManager.Instance.UpdateStats();
+    }
+    
+    private void EnableWeapon(WeaponData weaponData)
+    {
+        Player player = FindFirstObjectByType<Player>();
+        if (player != null)
+        {
+            switch (weaponData.weaponType)
+            {
+                case WeaponType.Shotgun:
+                    Shotgun shotgun = player.GetComponentInChildren<Shotgun>(true);
+                    if (shotgun != null)
+                    {
+                        shotgun.EnableShotgun();
+                    }
+                    break;
+                // 다른 무기 타입 여기에 추가
+            }
+        }
     }
 }

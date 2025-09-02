@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Gun : WeaponBase
 {
+    public static Action OnPlayerAttack;
     public GameObject bulletPrefab;
     public Transform weaponSpawnPoint;
     public float bulletSpeed = 30f;
@@ -23,6 +25,7 @@ public class Gun : WeaponBase
     public override void Attack(Transform target)
     {
         StartCoroutine(QuickStretch());
+        OnPlayerAttack?.Invoke();
         Vector2 direction = (target.position - weaponSpawnPoint.position).normalized;
         
         GameObject bullet = PoolManager.Instance.GetFromPool(bulletPrefab, weaponSpawnPoint.position, Quaternion.identity);

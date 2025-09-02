@@ -2457,6 +2457,7 @@ Transform:
   - {fileID: 39135285}
   - {fileID: 9022874}
   - {fileID: 457514140}
+  - {fileID: 1315409136}
   - {fileID: 75896009}
   - {fileID: 303682591}
   m_Father: {fileID: 0}
@@ -3167,6 +3168,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310958820}
   m_CullTransparentMesh: 1
+--- !u!1 &1315409135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1315409136}
+  - component: {fileID: 1315409137}
+  m_Layer: 0
+  m_Name: ShotgunAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1315409136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315409135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 929110204}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315409137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315409135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba413ec34c6a4f4f8ca1550650b409a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6202551220563633395, guid: 0c7b78d57d4e690408301922be300dc2, type: 3}
+  weaponSpawnPoint: {fileID: 39135285}
+  bulletSpeed: 30
+  bulletLifeTime: 1
+  fireSound: {fileID: 0}
+  triggerCount: 3
+  numberOfShots: 3
+  spreadAngle: 30
 --- !u!1 &1342056456
 GameObject:
   m_ObjectHideFlags: 0
@@ -3836,6 +3889,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5d60b3ce21efa864f88d110c2679331e, type: 2}
   - {fileID: 11400000, guid: c39e6c00b2fa76142b84cf75b3111183, type: 2}
   - {fileID: 11400000, guid: 738e1c4d243245240a9ad5809f52028f, type: 2}
+  allWeaponUpgrades:
+  - {fileID: 11400000, guid: a204b64580e756d49b59d22d3a17dfb3, type: 2}
 --- !u!4 &1488037766
 Transform:
   m_ObjectHideFlags: 0
@@ -4395,12 +4450,13 @@ MonoBehaviour:
   pausePanel: {fileID: 1915313206}
   inGameUI: {fileID: 1168518969}
   upgradeUI: {fileID: 1403875091}
-  equipmentUI: {fileID: 0}
   hpText: {fileID: 1803524728}
   expText: {fileID: 277826535}
   dayStatusText: {fileID: 780534528}
   pauseSound: {fileID: 8300000, guid: 96f2a918bff87be419ce722011e4550e, type: 3}
   clickSound: {fileID: 8300000, guid: 2a4e5f5e58fed4b48b4a425fd82516cd, type: 3}
+  bottomNavigationBar: {fileID: 0}
+  navigationPanels: []
 --- !u!1 &1792357649
 GameObject:
   m_ObjectHideFlags: 0

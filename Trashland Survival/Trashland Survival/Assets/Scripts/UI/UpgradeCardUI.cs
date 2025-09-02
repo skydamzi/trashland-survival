@@ -11,6 +11,7 @@ public class UpgradeCardUI : MonoBehaviour
 
     private EquipmentData currentEquipmentUpgrade;
     private UpgradeData currentStatUpgrade;
+    private WeaponData currentWeaponUpgrade;
     public UpgradeUI parentUI;
 
     public void Init(UpgradeUI parentUI)
@@ -27,6 +28,7 @@ public class UpgradeCardUI : MonoBehaviour
     {
         currentEquipmentUpgrade = data;
         currentStatUpgrade = null;
+        currentWeaponUpgrade = null;
         nameText.text = data.itemName;
         descriptionText.text = data.itemDescription;
         iconImage.sprite = data.itemIcon;
@@ -37,6 +39,7 @@ public class UpgradeCardUI : MonoBehaviour
     {
         currentStatUpgrade = data;
         currentEquipmentUpgrade = null;
+        currentWeaponUpgrade = null;
         nameText.text = data.upgradeName;
         descriptionText.text = data.upgradeDescription;
         iconImage.sprite = data.upgradeIcon;
@@ -45,6 +48,22 @@ public class UpgradeCardUI : MonoBehaviour
         {
             outlineEffect.enabled = true;
             outlineEffect.effectColor = Color.green;
+        }
+    }
+    
+    public void SetData(WeaponData data)
+    {
+        currentWeaponUpgrade = data;
+        currentEquipmentUpgrade = null;
+        currentStatUpgrade = null;
+        nameText.text = data.weaponName;
+        descriptionText.text = data.weaponDescription;
+        iconImage.sprite = data.weaponIcon;
+
+        if (outlineEffect != null)
+        {
+            outlineEffect.enabled = true;
+            outlineEffect.effectColor = Color.red;
         }
     }
 
@@ -75,6 +94,8 @@ public class UpgradeCardUI : MonoBehaviour
 
     private void OnCardClicked()
     {
+        if (parentUI.IsAnimating()) return;
+        
         if (currentEquipmentUpgrade != null)
         {
             UpgradeManager.Instance.ApplyUpgrade(currentEquipmentUpgrade);
@@ -85,5 +106,11 @@ public class UpgradeCardUI : MonoBehaviour
             UpgradeManager.Instance.ApplyUpgrade(currentStatUpgrade);
             parentUI.OnCardSelected(this);
         }
+        else if (currentWeaponUpgrade != null)
+        {
+            UpgradeManager.Instance.ApplyUpgrade(currentWeaponUpgrade);
+            parentUI.OnCardSelected(this);
+        }
     }
-}
+
+    }

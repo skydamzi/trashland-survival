@@ -85,7 +85,7 @@ public class PlayerAttackController : MonoBehaviour
         }
     }
 
-    private Transform FindNearestMonster()
+    public Transform FindNearestMonster()
     {
         Collider2D[] monsters = Physics2D.OverlapCircleAll(transform.position, PlayerManager.Instance.attackRange, LayerMask.GetMask("Monster"));
         if (monsters.Length == 0) return null;

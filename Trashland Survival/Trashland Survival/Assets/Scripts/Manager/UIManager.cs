@@ -89,20 +89,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void OnPlayerLevelUp()
+    void OnPlayerLevelUp(int levelUpCount)
     {
-        Debug.Log("레벨업으로 증강 선택 UI 표시");
+        Debug.Log($"{levelUpCount}회 레벨업으로 증강 UI 표시");
         if (upgradeUI != null)
         {
-            var upgrades = UpgradeManager.Instance.GetRandomUpgrades(3);
-            if (upgrades.Count > 0)
-            {
-                upgradeUI.ShowUpgrades(upgrades);
-            }
-            else
-            {
-                Debug.LogWarning("표시할 업그레이드 X");
-            }
+            upgradeUI.StartUpgradeFlow(levelUpCount);
         }
     }
 

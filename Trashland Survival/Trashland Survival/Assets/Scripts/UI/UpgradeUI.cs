@@ -9,6 +9,7 @@ public class UpgradeUI : MonoBehaviour
     public float animationDuration = 0.3f;
     public AnimationCurve scaleCurve;
 
+    private bool isAnimating = false;
     private Dictionary<UpgradeCardUI, Vector3> initialCardPositions = new Dictionary<UpgradeCardUI, Vector3>();
 
     void Start()
@@ -30,6 +31,7 @@ public class UpgradeUI : MonoBehaviour
         for (int i = 0; i < upgradeCards.Count; i++)
         {
             upgradeCards[i].gameObject.SetActive(true);
+            upgradeCards[i].button.interactable = true;
             upgradeCards[i].transform.localPosition = initialCardPositions[upgradeCards[i]];
             upgradeCards[i].transform.localScale = Vector3.one;
 
@@ -42,6 +44,10 @@ public class UpgradeUI : MonoBehaviour
                 else if (upgrades[i] is UpgradeData upgradeData)
                 {
                     upgradeCards[i].SetData(upgradeData);
+                }
+                else if (upgrades[i] is WeaponData weaponData)
+                {
+                    upgradeCards[i].SetData(weaponData);
                 }
             }
             else
@@ -143,11 +149,46 @@ public class UpgradeUI : MonoBehaviour
 
         upgradePanel.SetActive(false);
         Time.timeScale = 1f;
+        isAnimating = false;
+    }
+
+    public bool IsAnimating()
+    {
+        return isAnimating;
+    }
+
+    private int pendingLevelUps = 0;
+
+    public void StartUpgradeFlow(int count)
+    {
+        if (count <= 0) return;
+        pendingLevelUps = count;
+        ShowNextUpgrade();
+    }
+
+    private void ShowNextUpgrade()
+    {
+        var upgrades = UpgradeManager.Instance.GetRandomUpgrades(3);
+        if (upgrades.Count > 0)
+        {
+            ShowUpgrades(upgrades);
+        }
+        else
+        {
+            pendingLevelUps = 0;
+            StartCoroutine(AnimateHide());
+        }
     }
 
     public void OnCardSelected(UpgradeCardUI selectedCard)
     {
-        Time.timeScale = 1f;
+        if (isAnimating) return;
+        
+        isAnimating = true;
+        
+        selectedCard.button.interactable = false;
+        
+        pendingLevelUps--;
 
         StartCoroutine(AnimateSelectedCard(selectedCard));
 
@@ -159,7 +200,59 @@ public class UpgradeUI : MonoBehaviour
             }
         }
 
-        StartCoroutine(DeactivatePanelAfterDelay(0.3f));
+        if (pendingLevelUps > 0)
+        {
+            StartCoroutine(TransitionToNextUpgrades(0.5f));
+        }
+        else
+        {
+            StartCoroutine(DeactivatePanelAfterDelay(0.3f));
+        }
+    }
+
+    private IEnumerator TransitionToNextUpgrades(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        var upgrades = UpgradeManager.Instance.GetRandomUpgrades(3);
+        if (upgrades.Count > 0)
+        {
+            for (int i = 0; i < upgradeCards.Count; i++)
+            {
+                upgradeCards[i].gameObject.SetActive(true);
+                upgradeCards[i].button.interactable = true;
+                upgradeCards[i].transform.localPosition = initialCardPositions[upgradeCards[i]];
+                upgradeCards[i].transform.localScale = Vector3.one;
+
+                if (i < upgrades.Count)
+                {
+                    if (upgrades[i] is EquipmentData equipmentData)
+                    {
+                        upgradeCards[i].SetData(equipmentData);
+                    }
+                    else if (upgrades[i] is UpgradeData upgradeData)
+                    {
+                        upgradeCards[i].SetData(upgradeData);
+                    }
+                    else if (upgrades[i] is WeaponData weaponData)
+                    {
+                        upgradeCards[i].SetData(weaponData);
+                    }
+                }
+                else
+                {
+                    upgradeCards[i].gameObject.SetActive(false);
+                }
+            }
+            StartCoroutine(AnimateShow());
+        }
+        else
+        {
+            pendingLevelUps = 0;
+            StartCoroutine(AnimateHide());
+        }
+        
+        isAnimating = false;
     }
 
     private IEnumerator AnimateSelectedCard(UpgradeCardUI card)
@@ -190,9 +283,6 @@ public class UpgradeUI : MonoBehaviour
 
     private IEnumerator AnimateUnselectedCard(UpgradeCardUI card)
     {
-        Vector3 startPosition = card.transform.position;
-        Vector3 targetPosition = upgradePanel.transform.position;
-
         Vector3 startScale = card.transform.localScale;
         Vector3 targetScale = Vector3.zero;
 
@@ -216,5 +306,6 @@ public class UpgradeUI : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(delay);
         StartCoroutine(AnimateHide());
+        isAnimating = false;
     }
 }
