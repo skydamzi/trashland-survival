@@ -30,6 +30,7 @@ public class RangedAttackPatternSO : AttackPatternSO
                 {
                     projectile.Initialize(direction, projectileSpeed, monster.monsterData.attackPower, monster.gameObject);
                 }
+                monster.RegisterSpawnedPatternObject(projectileGO);
             }
         }
 

@@ -11,7 +11,6 @@ public class LaserBullet : MonoBehaviour
     private Vector2 startPosition;
     private float range;
     private LineRenderer lineRenderer;
-    private HashSet<IDamageable> hitEnemies = new HashSet<IDamageable>();
     private bool isFiring = false;
     private Transform followTarget;
     private Transform rotationTarget;
@@ -31,7 +30,6 @@ public class LaserBullet : MonoBehaviour
         this.followTarget = target;
         this.rotationTarget = rotTarget;
         this.startPosition = (Vector2)followTarget.position;
-        this.hitEnemies.Clear();
         
         if (lineRenderer != null)
         {
@@ -50,18 +48,12 @@ public class LaserBullet : MonoBehaviour
     private IEnumerator FireLaser()
     {
         float elapsedTime = 0f;
-        
+        float nextDamageTick = 0f;
+
         while (elapsedTime < duration)
         {
-            if (followTarget != null)
-            {
-                startPosition = (Vector2)followTarget.position;
-            }
-            
-            if (rotationTarget != null)
-            {
-                direction = rotationTarget.up;
-            }
+            if (followTarget != null) startPosition = (Vector2)followTarget.position;
+            if (rotationTarget != null) direction = rotationTarget.up;
             
             Vector2 currentEndPosition = startPosition + direction * range;
             if (lineRenderer != null)
@@ -69,31 +61,29 @@ public class LaserBullet : MonoBehaviour
                 lineRenderer.SetPosition(0, startPosition);
                 lineRenderer.SetPosition(1, currentEndPosition);
             }
-            
-            RaycastHit2D[] hits = Physics2D.RaycastAll(startPosition, direction, range, LayerMask.GetMask("Monster"));
-            
-            foreach (RaycastHit2D hit in hits)
+
+            if (Time.time > nextDamageTick)
             {
-                IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
-                if (damageable != null && !hit.collider.CompareTag("Player") && !hitEnemies.Contains(damageable))
+                nextDamageTick = Time.time + dotInterval;
+
+                RaycastHit2D[] hits = Physics2D.RaycastAll(startPosition, direction, range, LayerMask.GetMask("Monster"));
+
+                foreach (RaycastHit2D hit in hits)
                 {
-                    damageable.TakeDamage(damage);
-                    hitEnemies.Add(damageable);
+                    IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
+                    if (damageable != null && !hit.collider.CompareTag("Player"))
+                    {
+                        damageable.TakeDamage(damage);
+                    }
                 }
             }
             
             yield return null;
             elapsedTime += Time.deltaTime;
         }
-        
-        if (lineRenderer != null)
-        {
-            lineRenderer.enabled = false;
-        }
-        
+
+        if (lineRenderer != null) lineRenderer.enabled = false;
         isFiring = false;
-        hitEnemies.Clear();
-        
         PoolManager.Instance.ReturnToPool(gameObject);
     }
 }

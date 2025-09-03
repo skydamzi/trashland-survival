@@ -27,6 +27,7 @@ public class AreaAttackPatternSO : AttackPatternSO
         if (warningIndicator != null)
         {
             warningIndicator.transform.localScale = Vector3.one * attackRadius * 2;
+            monster.RegisterSpawnedPatternObject(warningIndicator);
         }
 
         yield return new WaitForSeconds(warningDuration);
@@ -45,6 +46,7 @@ public class AreaAttackPatternSO : AttackPatternSO
             {
                 areaDamage.Initialize(monster.GetDamage(), attackDuration, monster.gameObject);
             }
+            monster.RegisterSpawnedPatternObject(damageArea);
         }
 
         yield return new WaitForSeconds(attackDuration);

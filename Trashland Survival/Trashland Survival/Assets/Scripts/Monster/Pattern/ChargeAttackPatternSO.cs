@@ -36,6 +36,7 @@ public class ChargeAttackPatternSO : AttackPatternSO
             {
                 warningSign.transform.localScale = new Vector3(indicatorWidth, chargeRange, 1f);
                 warningSign.transform.position += warningSign.transform.up * (chargeRange / 2);
+                monster.RegisterSpawnedPatternObject(warningSign);
             }
         }
 

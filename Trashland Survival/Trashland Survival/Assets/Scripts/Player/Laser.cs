@@ -7,7 +7,7 @@ public class Laser : MonoBehaviour
     public GameObject laserBulletPrefab;
     public Transform weaponSpawnPoint;
     public float laserDuration = 3f;
-    public float dotDamageInterval = 0.1f;
+        public float dotDamageInterval = 0.25f;
     public float laserRange = 5f;
     public AudioClip fireSound;
     public int triggerCount = 5;
@@ -36,13 +36,11 @@ public class Laser : MonoBehaviour
     {
         this.enabled = true;
         attackCount = 0;
-        Debug.Log("레이저 활성화");
     }
 
     public void DisableLaser()
     {
         this.enabled = false;
-        Debug.Log("레이저 비활성화");
     }
 
     private void OnGunAttack()
@@ -50,14 +48,9 @@ public class Laser : MonoBehaviour
         attackCount++;
         if (attackCount >= triggerCount)
         {
-            Debug.Log("attackCount: " + attackCount);
             Transform target = playerAttackController?.FindNearestMonster();
             Attack(target);
             attackCount = 0;
-        }
-        else
-        {
-            Debug.Log("레이저 카운트: " + attackCount + "/" + triggerCount);
         }
     }
 

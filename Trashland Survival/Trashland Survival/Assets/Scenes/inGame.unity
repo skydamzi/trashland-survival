@@ -882,8 +882,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boomerangPrefab: {fileID: 6202551220563633395, guid: 61c9f1f832177c44ab164a1645560272, type: 3}
   weaponSpawnPoint: {fileID: 39135285}
-  boomerangSpeed: 10
-  boomerangLifeTime: 3
+  boomerangSpeed: 5
+  boomerangLifeTime: 5
   fireSound: {fileID: 0}
   triggerCount: 2
 --- !u!1 &332609279
@@ -2045,7 +2045,7 @@ MonoBehaviour:
   laserBulletPrefab: {fileID: 7719337522359122961, guid: 78dc8627c6ac74640bd07e8098532f70, type: 3}
   weaponSpawnPoint: {fileID: 39135285}
   laserDuration: 3
-  dotDamageInterval: 0.3
+  dotDamageInterval: 0.1
   laserRange: 5
   fireSound: {fileID: 0}
   triggerCount: 5

@@ -12,6 +12,7 @@ public class Monster : MonoBehaviour, IDamageable
     public bool isAttacking { get; set; }
 
     private Dictionary<AttackPatternSO, float> attackCooldowns = new Dictionary<AttackPatternSO, float>();
+    private List<GameObject> spawnedPatternObjects = new List<GameObject>();
 
     public void Initialize(MonsterData data, Transform target)
     {
@@ -20,6 +21,7 @@ public class Monster : MonoBehaviour, IDamageable
         eliteData = monsterData as EliteMonsterData;
 
         playerTransform = target;
+        spawnedPatternObjects.Clear();
 
         if (eliteData != null)
         {
@@ -84,6 +86,15 @@ public class Monster : MonoBehaviour, IDamageable
 
     void Die()
     {
+        foreach (var obj in spawnedPatternObjects)
+        {
+            if (obj != null && PoolManager.Instance != null)
+            {
+                PoolManager.Instance.ReturnToPool(obj);
+            }
+        }
+        spawnedPatternObjects.Clear();
+
         if (PoolManager.Instance != null && monsterData != null && monsterData.expGemPrefab != null && monsterData.expAmount > 0)
         {
             GameObject gem = PoolManager.Instance.GetFromPool(monsterData.expGemPrefab, transform.position, Quaternion.identity);
@@ -107,5 +118,13 @@ public class Monster : MonoBehaviour, IDamageable
     public GameObject GetOwner()
     {
         return gameObject;
+    }
+    
+    public void RegisterSpawnedPatternObject(GameObject obj)
+    {
+        if (obj != null)
+        {
+            spawnedPatternObjects.Add(obj);
+        }
     }
 }
