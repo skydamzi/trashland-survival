@@ -59,7 +59,7 @@ public class MonsterSpawner : MonoBehaviour
             Monster monster = monsterObj.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.Initialize(monsterData);
+                monster.Initialize(monsterData, PlayerManager.Instance.playerTransform);
             }
         }
     }

@@ -13,16 +13,13 @@ public class Monster : MonoBehaviour, IDamageable
 
     private Dictionary<AttackPatternSO, float> attackCooldowns = new Dictionary<AttackPatternSO, float>();
 
-    public void Initialize(MonsterData data)
+    public void Initialize(MonsterData data, Transform target)
     {
         monsterData = data;
         currentHealth = monsterData.health;
         eliteData = monsterData as EliteMonsterData;
 
-        if (PlayerManager.Instance != null)
-        {
-            playerTransform = PlayerManager.Instance.playerTransform;
-        }
+        playerTransform = target;
 
         if (eliteData != null)
         {

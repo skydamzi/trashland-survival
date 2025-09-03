@@ -42,9 +42,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        GameEvents.OnTimeScaleRequestPause += HandleTimeScaleRequestPause;
+        GameEvents.OnTimeScaleRequestResume += HandleTimeScaleRequestResume;
+        GameEvents.OnGameStateChangeRequest += HandleGameStateChangeRequest;
+    }
+
+    void OnDisable()
+    {
+        GameEvents.OnTimeScaleRequestPause -= HandleTimeScaleRequestPause;
+        GameEvents.OnTimeScaleRequestResume -= HandleTimeScaleRequestResume;
+        GameEvents.OnGameStateChangeRequest -= HandleGameStateChangeRequest;
+    }
+
     void Start()
     {
-        ChangeState(GameState.Ready);
+        GameEvents.RequestGameStateChange(GameState.Ready);
     }
 
     void PrepareObjectPools()
@@ -68,7 +82,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeState(GameState newState)
+    private void HandleGameStateChangeRequest(GameState newState)
     {
         if (currentState == newState) return;
 
@@ -104,28 +118,28 @@ public class GameManager : MonoBehaviour
     {
         GameEvents.NewGameStarted();
         PrepareObjectPools();
-        ChangeState(GameState.Playing);
+        GameEvents.RequestGameStateChange(GameState.Playing);
         SceneManager.LoadScene("inGame");
         Debug.Log("게임 시작");
         GameEvents.GameStarted();
     }
     public void PauseGame()
     {
-        ChangeState(GameState.Paused);
+        GameEvents.RequestGameStateChange(GameState.Paused);
         Debug.Log("게임 일시 정지");
         GameEvents.GamePaused();
     }
 
     public void ResumeGame()
     {
-        ChangeState(GameState.Playing);
+        GameEvents.RequestGameStateChange(GameState.Playing);
         Debug.Log("게임 재개");
         GameEvents.GameResumed();
     }
     public void ExitGame()
     {
         if (gameTime > highestTime) highestTime = gameTime;
-        ChangeState(GameState.Ready); 
+        GameEvents.RequestGameStateChange(GameState.Ready); 
         SceneManager.LoadScene("MainMenu");
         gameTime = 0f;
         Debug.Log("게임 종료");
@@ -135,5 +149,15 @@ public class GameManager : MonoBehaviour
     public void ResetGameTime()
     {
         gameTime = 0f;
+    }
+
+    private void HandleTimeScaleRequestPause()
+    {
+        Time.timeScale = 0f;
+    }
+
+    private void HandleTimeScaleRequestResume()
+    {
+        Time.timeScale = 1f;
     }
 }

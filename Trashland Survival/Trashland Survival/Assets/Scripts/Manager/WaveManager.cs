@@ -43,6 +43,6 @@ public class WaveManager : MonoBehaviour
         }
 
         Debug.Log("모든 웨이브 종료");
-        GameManager.Instance.ChangeState(GameState.Clear);
+        GameEvents.RequestGameStateChange(GameState.Clear);
     }
 }

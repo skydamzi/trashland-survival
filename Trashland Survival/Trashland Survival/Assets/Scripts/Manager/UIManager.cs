@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
         GameEvents.OnGameResumed += ShowInGameUI;
         GameEvents.OnGameExit += ShowReadyScreen;
         GameEvents.OnGameStateChanged += HandleGameStateChange;
+        GameEvents.OnUpgradeCardSelected += HandleUpgradeCardSelected;
     }
 
     void OnDisable()
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviour
         GameEvents.OnGameResumed -= ShowInGameUI;
         GameEvents.OnGameExit -= ShowReadyScreen;
         GameEvents.OnGameStateChanged -= HandleGameStateChange;
+        GameEvents.OnUpgradeCardSelected -= HandleUpgradeCardSelected;
     }
 
     private void HandleGameStateChange(GameState newState)
@@ -58,6 +60,11 @@ public class UIManager : MonoBehaviour
         {
             ShowReadyScreen();
         }
+    }
+
+    private void HandleUpgradeCardSelected()
+    {
+        GameEvents.RequestTimeScalePause();
     }
 
     void Start()
@@ -146,6 +153,7 @@ public class UIManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (clearPanel != null) clearPanel.SetActive(false);
         if (pausePanel != null) pausePanel.SetActive(false);
+        GameEvents.RequestTimeScaleResume();
     }
 
     public void ShowReadyScreen()

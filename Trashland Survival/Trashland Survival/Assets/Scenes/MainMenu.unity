@@ -3402,6 +3402,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1860195733}
   - component: {fileID: 1860195734}
+  - component: {fileID: 1860195737}
+  - component: {fileID: 1860195736}
+  - component: {fileID: 1860195735}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -3436,20 +3439,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2e16f1c4647c74da312915ed9b65ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
-  maxHP: 100
-  maxExp: 3
-  moveSpeed: 2
-  attackPower: 10
-  coolDown: 1
-  magnetPower: 1
-  attackRange: 3
   weaponType: 
   acquiredUpgrades: []
   acquiredStatUpgrades: []
   playerTransform: {fileID: 0}
   playerRenderers: []
   damagedSound: {fileID: 8300000, guid: 5a4227d8612a06541a5601c3ac3e818c, type: 3}
+--- !u!114 &1860195735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860195732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649228ae7f1b6034ead5e7c185af7cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <maxHP>k__BackingField: 0
+  <moveSpeed>k__BackingField: 0
+  <attackPower>k__BackingField: 0
+  <coolDown>k__BackingField: 0
+  <magnetPower>k__BackingField: 0
+  <attackRange>k__BackingField: 0
+  baseMaxHP: 100
+  baseMoveSpeed: 2
+  baseAttackPower: 10
+  baseCoolDown: 1
+  baseMagnetPower: 1
+  baseAttackRange: 3
+--- !u!114 &1860195736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860195732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58710b7dabd03f0479ca1f015c6f5a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <level>k__BackingField: 0
+  <maxExp>k__BackingField: 0
+  _currentExp: 0
+--- !u!114 &1860195737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860195732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d681e49e0b823d4b8d806bb60da6ba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <maxHP>k__BackingField: 0
+  _currentHP: 0
 --- !u!1 &1998045599
 GameObject:
   m_ObjectHideFlags: 0

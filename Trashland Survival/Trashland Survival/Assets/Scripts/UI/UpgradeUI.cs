@@ -24,7 +24,7 @@ public class UpgradeUI : MonoBehaviour
 
     public void ShowUpgrades(List<object> upgrades)
     {
-        Time.timeScale = 0f;
+        GameEvents.RequestTimeScalePause();
         
         upgradePanel.SetActive(true);
 
@@ -147,8 +147,8 @@ public class UpgradeUI : MonoBehaviour
         }
 
         upgradePanel.SetActive(false);
-        Time.timeScale = 1f;
         isAnimating = false;
+        GameEvents.RequestTimeScaleResume();
     }
 
     public bool IsAnimating()
