@@ -11,11 +11,12 @@ public static class GameEvents
     public static event Action OnGameResumed;
     public static event Action OnGameOver;
     public static event Action OnGameClear;
-    public static event Action OnGameExit; // 메인 메뉴로 돌아가기
-    public static event Action OnUpgradeCardSelected; // 증강카드 선택 이벤트
-    public static event Action OnTimeScaleRequestPause;  // 시간 조작 요청 (일시정지)
-    public static event Action OnTimeScaleRequestResume; // 시간 조작 요청 (재개)
-    public static event Action<GameState> OnGameStateChangeRequest; // 게임 상태 변경 요청
+    public static event Action OnGameExit;
+    public static event Action OnUpgradeCardSelected;
+    public static event Action OnTimeScaleRequestPause;
+    public static event Action OnTimeScaleRequestResume;
+    public static event Action<GameState> OnGameStateChangeRequest;
+    public static event Action<WeaponData> WeaponEnableRequested;
 
     public static void NewGameStarted()
     {
@@ -76,4 +77,10 @@ public static class GameEvents
     {
         OnGameStateChangeRequest?.Invoke(newState);
     }
+    
+    public static void OnWeaponEnableRequested(WeaponData weaponData)
+    {
+        WeaponEnableRequested?.Invoke(weaponData);
+    }
+
 }

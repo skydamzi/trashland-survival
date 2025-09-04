@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class Player : MonoBehaviour
 {
     public VariableJoystick joystick;

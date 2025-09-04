@@ -78,43 +78,10 @@ public class UpgradeManager : MonoBehaviour
         }
         else if (data is WeaponData weaponData)
         {
-            EnableWeapon(weaponData);
+
+            GameEvents.OnWeaponEnableRequested(weaponData);
             availableWeaponUpgrades.Remove(weaponData);
         }
         PlayerManager.Instance.UpdateStats();
-    }
-    
-    private void EnableWeapon(WeaponData weaponData)
-    {
-        Player player = FindFirstObjectByType<Player>();
-        if (player != null)
-        {
-            switch (weaponData.weaponType)
-            {
-                case WeaponType.Shotgun:
-                    Shotgun shotgun = player.GetComponentInChildren<Shotgun>(true);
-                    if (shotgun != null)
-                    {
-                        shotgun.EnableShotgun();
-                    }
-                    break;
-
-                case WeaponType.Boomerang:
-                    Boomerang boomerang = player.GetComponentInChildren<Boomerang>(true);
-                    if (boomerang != null)
-                    {
-                        boomerang.EnableBoomerang();
-                    }
-                    break;
-                case WeaponType.Laser:
-                    Laser laser = player.GetComponentInChildren<Laser>(true);
-                    if (laser != null)
-                    {
-                        laser.EnableLaser();
-                    }
-                    break;
-                // 다른 무기 타입도 여기에 추가
-            }
-        }
     }
 }
