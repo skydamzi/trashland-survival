@@ -22,7 +22,6 @@ public class PlayerManager : MonoBehaviour
     public float magnetPower => playerStats.magnetPower;
     public float attackRange => playerStats.attackRange;
 
-    public string weaponType;
     public List<EquipmentData> acquiredUpgrades = new List<EquipmentData>();
     public List<UpgradeData> acquiredStatUpgrades = new List<UpgradeData>();
     public Transform playerTransform;
@@ -111,7 +110,6 @@ public class PlayerManager : MonoBehaviour
         UpdateStats(); 
         playerHealth.ResetHealth(playerStats.maxHP);
 
-        weaponType = "Gun";
         Debug.Log("플레이어 스탯 초기화 완료");
     }
 }

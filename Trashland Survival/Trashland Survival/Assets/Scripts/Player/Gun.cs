@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Gun : WeaponBase
+public class Gun : MonoBehaviour
 {
     public static Action OnPlayerAttack;
     public GameObject bulletPrefab;
@@ -22,7 +22,7 @@ public class Gun : WeaponBase
         }
     }
 
-    public override void Attack(Transform target)
+    public void Attack(Transform target)
     {
         StartCoroutine(QuickStretch());
         OnPlayerAttack?.Invoke();
