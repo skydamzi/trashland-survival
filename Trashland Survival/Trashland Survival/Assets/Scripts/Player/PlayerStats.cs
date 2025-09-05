@@ -19,9 +19,20 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float baseMagnetPower = 1f;
     [SerializeField] private float baseAttackRange = 3f;
 
+    [Header("Gold")]
+    [SerializeField] private int goldAmount = 0;
+    public int gold { get { return goldAmount; } private set { goldAmount = value; } }
+    
     public void ResetStats()
     {
+        gold = 0;
         CalculateStats(new List<UpgradeData>(), new List<EquipmentData>());
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        // 나중에 골드 변경은 이벤트로 처리하기
     }
 
     public void CalculateStats(List<UpgradeData> acquiredStatUpgrades, List<EquipmentData> acquiredEquipment)

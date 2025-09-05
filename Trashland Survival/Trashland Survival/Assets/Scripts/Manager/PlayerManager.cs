@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     public float coolDown => playerStats.coolDown;
     public float magnetPower => playerStats.magnetPower;
     public float attackRange => playerStats.attackRange;
+    public int gold => playerStats.gold;
 
     public List<EquipmentData> acquiredUpgrades = new List<EquipmentData>();
     public List<UpgradeData> acquiredStatUpgrades = new List<UpgradeData>();
@@ -65,6 +66,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        PlayerManager.Instance.GainGold(500);
         ResetStats();
     }
 
@@ -82,6 +84,21 @@ public class PlayerManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         playerHealth.TakeDamage(damage);
+    }
+
+    public void GainGold(int amount)
+    {
+        playerStats.AddGold(amount);
+    }
+    
+    public bool SpendGold(int amount)
+    {
+        if (playerStats.gold >= amount)
+        {
+            playerStats.AddGold(-amount);
+            return true;
+        }
+        return false;
     }
 
     public void UpdateStats()

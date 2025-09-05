@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e865374ebce0f4fbb3335c8bc3e79b, type: 3}
+  m_Name: TestGachaPool
+  m_EditorClassIdentifier: 
+  poolName: TestGachaPool
+  costGold: 100
+  items:
+  - equipment: {fileID: 11400000, guid: 9ad693cbeddb3be47b9e4c97e3277e38, type: 2}
+    weight: 50
+  - equipment: {fileID: 11400000, guid: 1627be586fac6984f92f73e4f464e026, type: 2}
+    weight: 1
+  - equipment: {fileID: 11400000, guid: ddc40b7a5dc891446a6106eadf206aaa, type: 2}
+    weight: 1
+  - equipment: {fileID: 11400000, guid: 3fa999473c6074d4a803d76bbaa4b3f5, type: 2}
+    weight: 50
+  - equipment: {fileID: 11400000, guid: 95b98cabc264fb64ca2469cb1589d47a, type: 2}
+    weight: 50
+  - equipment: {fileID: 11400000, guid: 8e529cb7225cef24bbff4421607a1d9f, type: 2}
+    weight: 30
